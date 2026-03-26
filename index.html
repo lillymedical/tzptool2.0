@@ -66,6 +66,8 @@ input:focus, select:focus { outline:none; border-color:var(--red); box-shadow:0 
 .btn-calc { width:100%; height:46px; background:linear-gradient(135deg, var(--grad-start) 0%, var(--grad-end) 100%); color:#fff; border:none; border-radius:var(--radius-sm); font-family:'Plus Jakarta Sans',sans-serif; font-size:.92rem; font-weight:700; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px; transition:opacity .18s, transform .1s; box-shadow:0 4px 14px rgba(200,16,46,.3); margin-top:6px; }
 .btn-calc:hover { opacity:.91; }
 .btn-calc:active { transform:scale(.98); }
+.btn-reset { height:46px; width:46px; background:#fff; color:var(--mid); border:1.5px solid var(--border); border-radius:var(--radius-sm); font-size:1.1rem; font-weight:700; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:.18s; }
+.btn-reset:hover { border-color:var(--red); color:var(--red); background:#fff5f6; }
 
 /* PDF button */
 .btn-pdf { height:36px; padding:0 16px; background:#fff; color:var(--red); border:1.5px solid var(--red); border-radius:var(--radius-sm); font-family:'Plus Jakarta Sans',sans-serif; font-size:.78rem; font-weight:700; cursor:pointer; display:flex; align-items:center; gap:6px; transition:.18s; white-space:nowrap; }
@@ -199,9 +201,9 @@ footer { text-align:center; padding:18px; font-size:.7rem; color:var(--muted); b
             <div class="select-wrap">
               <select id="dose">
                 <option value="">Selecione a dose...</option>
-                <option value="5">5 mg (dose baixa)</option>
-                <option value="10">10 mg (dose média)</option>
-                <option value="15">15 mg (dose alta)</option>
+                <option value="5">5 mg</option>
+                <option value="10">10 mg</option>
+                <option value="15">15 mg</option>
               </select>
             </div>
             <div class="form-hint" id="doseHint"></div>
@@ -238,7 +240,11 @@ footer { text-align:center; padding:18px; font-size:.7rem; color:var(--muted); b
             <div class="form-hint">Opcional — compara com a curva prevista</div>
           </div>
 
-          <button class="btn-calc" onclick="calculate()">📊 Calcular Predição</button>
+          <div class="form-hint" style="background:#fef3c7;border:1px solid #f59e0b;border-radius:8px;padding:8px 10px;color:#78350f;font-size:.72rem;line-height:1.5;margin-bottom:10px;">⏱ <strong>Atenção:</strong> Esta ferramenta modela a trajetória até a semana 72 de tratamento. Consultas além desse período estão fora do escopo da predição.</div>
+          <div style="display:grid;grid-template-columns:1fr auto;gap:8px;margin-top:6px;">
+            <button class="btn-calc" onclick="calculate()">📊 Calcular Predição</button>
+            <button class="btn-reset" onclick="resetForm()" title="Limpar todos os campos">↺</button>
+          </div>
         </div>
       </div>
     </div>
@@ -394,7 +400,7 @@ function updateGlycemicHint() {
     Array.from(doseEl.options).forEach(opt => {
       if (opt.value === '5') {
         opt.disabled    = false;
-        opt.textContent = '5 mg (dose baixa)';
+        opt.textContent = '5 mg';
       }
     });
     if (doseHint) {
@@ -415,6 +421,34 @@ function calcPercentile(actualTWL, medianTWL, q1, q3) {
   const poly = t*(0.319381530 + t*(-0.356563782 + t*(1.781477937 + t*(-1.821255978 + t*1.330274429))));
   const phi  = 1 - (1/Math.sqrt(2*Math.PI)) * Math.exp(-0.5*z*z) * poly;
   return Math.round(z >= 0 ? phi*100 : (1-phi)*100);
+}
+
+function resetForm() {
+  // Clear all inputs
+  ['weight','height','age','weightCurrent'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.value = '';
+  });
+  ['sex','dose','glycemic'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.value = '';
+  });
+  ['dateStart','dateCurrent'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.value = '';
+  });
+  // Reset dose hint
+  updateGlycemicHint();
+  // Hide results
+  document.getElementById('emptyState').style.display = 'flex';
+  document.getElementById('resultContent').style.display = 'none';
+  document.getElementById('tableCard').style.display = 'none';
+  document.getElementById('disclaimer').style.display = 'none';
+  document.getElementById('btnPdf').style.display = 'none';
+  const at = document.getElementById('actualTags');
+  if (at) at.style.display = 'none';
+  if (chartInstance) { chartInstance.destroy(); chartInstance = null; }
+  lastState = null;
 }
 
 function calculate() {
