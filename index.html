@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Calculadora de Predição — Tirzepatida | Eli Lilly Brasil</title>
+<title>TIRZE CALC — Predição de Perda de Peso | Tirzepatida</title>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" crossorigin="anonymous"></script>
@@ -34,308 +34,301 @@
   --mid:       #4a4a6a;
   --muted:     #9ca3af;
   --surface:   #ffffff;
-  --bg:        #f6f7fb;
-  --border:    #e2e4ef;
-  --shadow-sm: 0 1px 8px rgba(0,0,0,.06);
-  --shadow-md: 0 4px 24px rgba(0,0,0,.09);
-  --shadow-red:0 4px 20px rgba(200,16,46,.22);
-  --r:         12px;
-  --r-sm:      8px;
+  --bg:        #f5f6fa;
+  --border:    #e4e6f0;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,.04), 0 4px 12px rgba(0,0,0,.03);
+  --shadow-md: 0 4px 16px rgba(0,0,0,.06), 0 12px 40px rgba(0,0,0,.04);
+  --shadow-lg: 0 8px 30px rgba(0,0,0,.08), 0 20px 60px rgba(0,0,0,.04);
+  --shadow-red:0 4px 20px rgba(200,16,46,.18), 0 8px 40px rgba(200,16,46,.08);
+  --glass:     rgba(255,255,255,.6);
+  --glass-border: rgba(255,255,255,.45);
+  --glass-blur: 16px;
+  --r:         14px;
+  --r-sm:      10px;
+  --r-lg:      20px;
   --ff-head:   'Plus Jakarta Sans', -apple-system, Arial, sans-serif;
   --ff-body:   'DM Sans', -apple-system, Arial, sans-serif;
   --max:       1200px;
   --px:        clamp(16px, 4vw, 48px);
+  --ease:      cubic-bezier(.22, 1, .36, 1);
+  --ease-out:  cubic-bezier(.16, 1, .3, 1);
 }
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
 body { font-family: var(--ff-body); background: var(--bg); color: var(--dark); overflow-x: hidden; }
+::selection { background: rgba(200,16,46,.12); color: var(--dark); }
 
 /* ═══ VIEWS ═══ */
 #view-landing { display: block; }
 #view-tool    { display: none; }
 
 /* ══════════════════════════════════════════════════════════
-   LANDING — Split-screen: vermelho esquerda · cinza direita
-   Exatamente o layout aprovado (imagem referência)
+   LANDING — Burgundy minimal
 ══════════════════════════════════════════════════════════ */
-
-#view-landing {
-  min-height: 100vh;
-  display: grid;
-  grid-template-columns: 55% 45%;
-}
-@media (max-width: 860px) {
-  #view-landing { grid-template-columns: 1fr; }
-  .lp-left { display: none; }
-}
-
-/* ── Painel esquerdo ── */
-.lp-left {
-  background: var(--red);
-  position: relative; overflow: hidden;
-  display: flex; flex-direction: column;
-  justify-content: space-between;
-  padding: 52px 56px 44px;
-  min-height: 100vh;
-}
-.lp-left::before {
-  content: '';
-  position: absolute; inset: 0; pointer-events: none;
-  background:
-    radial-gradient(ellipse 80% 50% at 10% 15%, rgba(255,255,255,.11) 0%, transparent 55%),
-    radial-gradient(ellipse 60% 60% at 100% 100%, rgba(0,0,0,.2) 0%, transparent 55%);
-}
-.lp-left::after {
-  content: '';
-  position: absolute; top: -20%; right: -12%;
-  width: 55%; height: 140%;
-  background: rgba(0,0,0,.08);
-  transform: rotate(10deg);
-  pointer-events: none;
-}
-
-/* Marca */
-.lp-brand { position: relative; z-index: 2; }
-.lp-lilly-sig {
-  font-family: var(--ff-head);
-  font-size: 2rem; font-weight: 800; font-style: italic;
-  color: #fff; letter-spacing: -.04em; line-height: 1;
-  display: block; margin-bottom: 2px;
-}
-.lp-brand-sub {
-  font-size: .64rem; font-weight: 700;
-  letter-spacing: .2em; text-transform: uppercase;
-  color: rgba(255,255,255,.6);
-}
-
-/* Conteúdo central */
-.lp-content {
-  position: relative; z-index: 2;
-  flex: 1;
-  display: flex; flex-direction: column; justify-content: center;
-  padding: 48px 0 36px;
-}
-
-.lp-pill {
-  display: inline-flex; align-items: center; gap: 8px;
-  background: rgba(255,255,255,.15);
-  border: 1px solid rgba(255,255,255,.28);
-  border-radius: 100px; padding: 6px 16px;
-  font-size: .62rem; font-weight: 700;
-  letter-spacing: .14em; text-transform: uppercase;
-  color: rgba(255,255,255,.92);
-  margin-bottom: 28px; width: fit-content;
-}
-.lp-pill-dot { width: 5px; height: 5px; border-radius: 50%; background: #fff; flex-shrink: 0; }
-
-.lp-headline {
-  font-family: var(--ff-head);
-  font-size: clamp(2.4rem, 4vw, 3.6rem);
-  font-weight: 800; letter-spacing: -.04em; line-height: 1.05;
-  color: #fff;
-  margin-bottom: 28px;
-}
-.lp-headline .dim { color: rgba(255,255,255,.5); }
-
-.lp-desc {
-  font-size: .95rem; color: rgba(255,255,255,.65);
-  line-height: 1.78; max-width: 400px;
-  margin-bottom: 36px; font-weight: 300;
-}
-.lp-desc strong { color: rgba(255,255,255,.92); font-weight: 600; }
-
-/* Chips */
-.lp-chips { display: flex; flex-direction: column; gap: 10px; }
-.lp-chip {
-  display: flex; align-items: center; gap: 14px;
-  background: rgba(255,255,255,.09);
-  border: 1px solid rgba(255,255,255,.14);
-  border-radius: 10px; padding: 13px 16px;
-  transition: background .15s;
-}
-.lp-chip:hover { background: rgba(255,255,255,.14); }
-.lp-chip-icon {
-  width: 36px; height: 36px; border-radius: 8px;
-  background: rgba(255,255,255,.18);
+.lp-burgundy {
+  min-height: 100vh; background: #1A1218;
   display: flex; align-items: center; justify-content: center;
-  flex-shrink: 0; font-size: .95rem;
+  padding: 48px 24px; position: relative; overflow: hidden;
 }
-.lp-chip-label { font-size: .88rem; font-weight: 700; color: #fff; margin-bottom: 2px; font-family: var(--ff-head); }
-.lp-chip-desc  { font-size: .76rem; color: rgba(255,255,255,.58); line-height: 1.35; }
-
-/* Rodapé esquerdo */
-.lp-footer {
-  position: relative; z-index: 2;
-  padding-top: 24px;
-  border-top: 1px solid rgba(255,255,255,.15);
-  font-size: .7rem; color: rgba(255,255,255,.38); line-height: 1.65;
+.lp-glow1 {
+  position: absolute; width: 600px; height: 600px; border-radius: 50%;
+  background: radial-gradient(circle, #C8102E 0%, transparent 70%); opacity: .06; filter: blur(100px);
+  top: -250px; left: -150px; pointer-events: none;
 }
-
-/* ── Painel direito ── */
-.lp-right {
-  background: #F2F2F2;
+.lp-glow2 {
+  position: absolute; width: 400px; height: 400px; border-radius: 50%;
+  background: radial-gradient(circle, #4A0010 0%, transparent 70%); opacity: .08; filter: blur(90px);
+  bottom: -180px; right: -100px; pointer-events: none;
+}
+.lp-glow3 {
+  position: absolute; width: 200px; height: 200px; border-radius: 50%;
+  background: radial-gradient(circle, #C8102E 0%, transparent 70%); opacity: .03; filter: blur(60px);
+  top: 40%; right: 15%; pointer-events: none;
+  animation: lp-glow-pulse 8s ease-in-out infinite 1.5s;
+}
+.lp-card {
+  position: relative; z-index: 1;
+  width: 100%; max-width: 400px; text-align: center;
+  background: rgba(255,255,255,.025);
+  border: 1px solid rgba(255,255,255,.05);
+  border-radius: 24px; padding: 44px 36px 36px;
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  box-shadow: 0 8px 60px rgba(0,0,0,.25), inset 0 1px 0 rgba(255,255,255,.04);
+}
+.lp-logo {
   display: flex; align-items: center; justify-content: center;
-  padding: 48px 44px;
-  min-height: 100vh;
+  gap: 16px; margin-bottom: 12px;
+}
+.lp-tc-icon {
+  width: 56px; height: 56px; border-radius: 16px;
+  background: linear-gradient(135deg, #C8102E 0%, #9e0c24 100%);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--ff-head); font-weight: 800; font-size: 24px;
+  color: #fff; flex-shrink: 0;
+  box-shadow: 0 4px 24px rgba(200,16,46,.35), 0 0 80px rgba(200,16,46,.12);
   position: relative;
 }
-
-/* ── Card do formulário ── */
-.gate-card {
-  background: #FFFFFF;
-  border-radius: 16px;
-  padding: 36px 32px 28px;
-  width: 100%; max-width: 420px;
-  box-shadow: 0 4px 32px rgba(0,0,0,.1), 0 1px 4px rgba(0,0,0,.06);
-  animation: gate-up .6s cubic-bezier(.22,1,.36,1) both;
+.lp-tc-icon::after {
+  content: ''; position: absolute; inset: -2px; border-radius: 18px;
+  background: linear-gradient(135deg, rgba(255,255,255,.15), transparent 60%);
+  pointer-events: none;
 }
-@keyframes gate-up {
-  from { opacity: 0; transform: translateY(18px); }
-  to   { opacity: 1; transform: none; }
+.lp-tc-wm {
+  font-family: var(--ff-head); font-weight: 800;
+  font-size: 36px; color: #F5F0F0; letter-spacing: 3px;
 }
-
-.gate-eyebrow {
-  font-family: var(--ff-head);
-  font-size: .6rem; font-weight: 700;
-  letter-spacing: .2em; text-transform: uppercase;
-  color: var(--red); margin-bottom: 8px;
+.lp-tagline {
+  font-size: .82rem; color: rgba(255,255,255,.28);
+  letter-spacing: .8px; margin-bottom: 36px;
 }
-.gate-title {
-  font-family: var(--ff-head);
-  font-size: 1.65rem; font-weight: 800;
-  color: #111111; letter-spacing: -.03em; line-height: 1.1;
-  margin-bottom: 6px;
+.lp-sep {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(200,16,46,.15), transparent);
+  margin-bottom: 30px;
 }
-.gate-sub {
-  font-size: .86rem; color: #888;
-  line-height: 1.6; margin-bottom: 0;
-}
-.gate-sep {
-  height: 2px; width: 40px;
-  background: var(--red);
-  margin: 18px 0 22px;
-  border-radius: 2px;
-}
-
-/* Labels */
-.gf { margin-bottom: 16px; }
-.gf label {
-  display: block;
-  font-family: var(--ff-head);
+.lp-field { margin-bottom: 16px; text-align: left; }
+.lp-field label {
+  display: block; font-family: var(--ff-head);
   font-size: .62rem; font-weight: 700;
-  letter-spacing: .14em; text-transform: uppercase;
-  color: #999; margin-bottom: 7px;
+  letter-spacing: 1.8px; text-transform: uppercase;
+  color: rgba(255,255,255,.22); margin-bottom: 6px;
 }
-.gf label .req { color: var(--red); margin-left: 2px; }
-
-/* Inputs */
-.gf input, .gf select {
-  width: 100%; height: 48px;
-  background: #FFFFFF;
-  border: 1.5px solid #D4D4D4;
-  border-radius: 8px; padding: 0 14px;
+.lp-req { color: #C8102E; }
+.lp-input {
+  width: 100%; height: 50px;
+  background: rgba(255,255,255,.04);
+  border: 1px solid rgba(255,255,255,.07);
+  border-radius: 14px; padding: 0 16px;
   font-family: var(--ff-body); font-size: .92rem;
-  color: #111111; outline: none;
-  transition: border-color .15s, box-shadow .15s;
+  color: #fff; outline: none;
+  transition: border-color .3s var(--ease), box-shadow .3s var(--ease), background .3s;
   -webkit-appearance: none; appearance: none;
 }
-.gf input::placeholder { color: #BBBBBB; }
-.gf select option { background: #fff; color: #111; }
-.gf input:focus, .gf select:focus {
-  border-color: var(--red);
-  box-shadow: 0 0 0 3px rgba(200,16,46,.1);
-}
-.gf input.g-err, .gf select.g-err { border-color: #DC2626; }
-.g-ferr { font-size: .7rem; color: #DC2626; margin-top: 4px; display: none; }
-.g-sw { position: relative; }
-.g-sw::after {
-  content: '▾'; position: absolute;
-  right: 13px; top: 50%; transform: translateY(-50%);
-  color: #AAA; pointer-events: none; font-size: .76rem;
-}
-
-/* Checkbox — azul claro */
-.gate-check {
+.lp-input::placeholder { color: rgba(255,255,255,.12); }
+.lp-input:focus { border-color: rgba(200,16,46,.45); box-shadow: 0 0 0 4px rgba(200,16,46,.08); background: rgba(255,255,255,.06); }
+.lp-input.lp-has-err { border-color: rgba(239,68,68,.5); }
+.lp-err { font-size: .7rem; color: #f87171; margin-top: 5px; display: none; }
+.lp-check {
   display: flex; gap: 12px; align-items: flex-start;
-  margin: 8px 0 20px; padding: 14px 15px;
-  background: #F0F4FF;
-  border-radius: 8px; border: 1.5px solid #C7D6FF;
-  cursor: pointer; transition: border-color .15s, background .15s;
+  padding: 14px 16px; margin: 4px 0 22px;
+  background: rgba(255,255,255,.025);
+  border: 1px solid rgba(255,255,255,.05);
+  border-radius: 12px; text-align: left;
+  cursor: pointer; transition: border-color .2s, background .2s;
 }
-.gate-check:hover { border-color: #9AB4FF; background: #E8EEFF; }
-.gate-check input {
-  width: 16px; height: 16px; flex-shrink: 0;
-  margin-top: 2px; accent-color: #2563EB; cursor: pointer;
+.lp-check:hover { border-color: rgba(200,16,46,.12); background: rgba(255,255,255,.04); }
+.lp-check input {
+  width: 15px; height: 15px; margin-top: 1px;
+  accent-color: #C8102E; flex-shrink: 0; cursor: pointer;
 }
-.gate-check span { font-size: .84rem; color: #374151; line-height: 1.55; }
+.lp-check span {
+  font-size: .78rem; color: rgba(255,255,255,.3); line-height: 1.55;
+}
+.lp-btn {
+  width: 100%; height: 52px; border: none; border-radius: 14px;
+  font-family: var(--ff-head); font-size: .92rem; font-weight: 700;
+  background: linear-gradient(135deg, #C8102E 0%, #a80d26 100%); color: #fff;
+  cursor: pointer; letter-spacing: .5px;
+  transition: all .3s var(--ease);
+  box-shadow: 0 4px 20px rgba(200,16,46,.28), 0 0 60px rgba(200,16,46,.06);
+  position: relative; overflow: hidden;
+}
+.lp-btn::before {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,.12), transparent 50%);
+  pointer-events: none;
+}
+.lp-btn:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 6px 28px rgba(200,16,46,.35), 0 0 80px rgba(200,16,46,.1); }
+.lp-btn:active:not(:disabled) { transform: translateY(0); }
+.lp-btn:disabled { opacity: .3; cursor: not-allowed; transform: none; box-shadow: none; }
+.lp-foot {
+  display: flex; align-items: center; justify-content: center;
+  gap: 8px; margin-top: 20px;
+}
+.lp-ssl-dot {
+  width: 5px; height: 5px; border-radius: 50%;
+  background: #22c55e; box-shadow: 0 0 6px rgba(34,197,94,.4);
+}
+.lp-foot-txt { font-size: .62rem; color: rgba(255,255,255,.15); letter-spacing: .5px; }
 
-/* Botão */
-.btn-gate {
-  width: 100%; height: 50px;
-  background: #D0D0D0; color: #999;
-  border: none; border-radius: 8px;
-  font-family: var(--ff-head);
-  font-size: .9rem; font-weight: 700; letter-spacing: .03em;
-  cursor: not-allowed;
-  transition: background .15s, box-shadow .15s, transform .12s;
+/* ── Landing animations ── */
+@keyframes lp-fade-up {
+  from { opacity: 0; transform: translateY(24px) scale(.98); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
 }
-.btn-gate:not(:disabled) {
-  background: var(--red); color: #fff; cursor: pointer;
-  box-shadow: 0 4px 16px rgba(200,16,46,.32);
+@keyframes lp-glow-pulse {
+  0%, 100% { opacity: .06; transform: scale(1) translate(0,0); }
+  50%      { opacity: .1; transform: scale(1.1) translate(5px,-5px); }
 }
-.btn-gate:not(:disabled):hover {
-  background: var(--red-dk); transform: translateY(-1px);
-  box-shadow: 0 6px 20px rgba(200,16,46,.42);
-}
-.btn-gate:not(:disabled):active { transform: translateY(0); }
-.btn-gate:disabled { background: #D0D0D0; color: #999; box-shadow: none; transform: none; }
+.lp-burgundy { background: linear-gradient(160deg, #1A1218 0%, #1E0E16 30%, #200F1A 50%, #18101C 70%, #1A1218 100%); }
+.lp-glow1 { animation: lp-glow-pulse 8s ease-in-out infinite; }
+.lp-glow2 { animation: lp-glow-pulse 8s ease-in-out infinite 4s; }
+.lp-card   { animation: lp-fade-up .9s var(--ease) .1s both; }
+.lp-logo   { animation: lp-fade-up .9s var(--ease) .2s both; }
+.lp-tagline{ animation: lp-fade-up .8s var(--ease) .35s both; }
+.lp-sep    { animation: lp-fade-up .7s var(--ease) .45s both; }
+.lp-field  { animation: lp-fade-up .7s var(--ease) .55s both; }
+.lp-check  { animation: lp-fade-up .7s var(--ease) .65s both; }
+.lp-btn    { animation: lp-fade-up .7s var(--ease) .75s both; }
+.lp-foot   { animation: lp-fade-up .7s var(--ease) .85s both; }
 
-/* Rodapé do formulário */
-.gate-form-footer {
-  margin-top: 16px;
-  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+/* Red accent line under logo */
+.lp-tc-wm { position: relative; }
+.lp-tc-wm::after {
+  content: ''; display: block;
+  width: 60px; height: 2px; border-radius: 1px;
+  background: linear-gradient(90deg, #C8102E, rgba(200,16,46,.15), transparent);
+  margin-top: 6px;
 }
-.gate-privacy { font-size: .7rem; color: #AAA; flex: 1; line-height: 1.45; }
-.gate-ssl {
-  display: flex; align-items: center; gap: 5px;
-  padding: 4px 10px;
-  background: #F5F5F5; border: 1px solid #E0E0E0;
-  border-radius: 100px; flex-shrink: 0;
-}
-.ssl-dot { width: 5px; height: 5px; border-radius: 50%; background: #22c55e; box-shadow: 0 0 5px rgba(34,197,94,.5); }
-.ssl-txt { font-size: .62rem; color: #AAA; letter-spacing: .06em; }
 
-/* Disclaimer rodapé */
-.lp-disclaimer-footer {
-  background: #EBEBEB; border-top: 1px solid #D8D8D8;
-  padding: 20px clamp(20px, 4vw, 56px);
+/* ── Topbar study buttons ── */
+.topbar-study-btn {
+  padding: 5px 14px; border-radius: 20px;
+  font-family: var(--ff-body); font-size: .78rem; font-weight: 400;
+  color: rgba(255,255,255,.65); background: transparent;
+  border: none; cursor: pointer; transition: all .25s var(--ease); white-space: nowrap;
 }
-.lp-disclaimer-inner { max-width: 1240px; margin: 0 auto; }
-.lp-disclaimer-footer p { font-size: .75rem; color: #888; line-height: 1.65; text-align: center; }
-.lp-disclaimer-footer strong { color: #666; font-weight: 600; }
+.topbar-study-btn:hover { background: rgba(255,255,255,.12); color: #fff; }
+
+/* ── Study slide-down panels ── */
+.study-panel {
+  display: none; background: rgba(255,255,255,.8);
+  backdrop-filter: blur(var(--glass-blur)); -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid rgba(255,255,255,.5);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow-md);
+  animation: sp-slide .4s var(--ease);
+  margin-bottom: 16px;
+}
+.study-panel.open { display: block; }
+@keyframes sp-slide { from { opacity:0; transform:translateY(-12px) scale(.99); } to { opacity:1; transform:none; } }
+.study-panel-inner { max-width: var(--max); margin: 0 auto; padding: 24px var(--px); }
+.study-panel-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; margin-bottom: 18px; }
+.study-panel-tag {
+  display: inline-block; font-family: var(--ff-head); font-size: .58rem; font-weight: 600;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--red);
+  background: rgba(200,16,46,.06); border: 1px solid rgba(200,16,46,.1);
+  border-radius: 20px; padding: 4px 12px; margin-bottom: 8px;
+}
+.study-panel-title { font-family: var(--ff-head); font-size: .9rem; font-weight: 600; color: var(--dark); line-height: 1.35; }
+.study-panel-ref { font-size: .78rem; color: var(--muted); font-style: italic; margin-top: 4px; }
+.study-panel-close {
+  width: 34px; height: 34px; border-radius: 10px; border: 1px solid rgba(0,0,0,.06);
+  background: rgba(255,255,255,.5); color: var(--muted); font-size: 1.2rem;
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; transition: all .25s var(--ease);
+  backdrop-filter: blur(4px);
+}
+.study-panel-close:hover { border-color: var(--red); color: var(--red); background: var(--red-lt); }
+.study-panel-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 14px; }
+@media (max-width: 700px) { .study-panel-grid { grid-template-columns: 1fr; } }
+.study-panel-col { display: flex; flex-direction: column; gap: 0; }
+.sp-row {
+  display: flex; justify-content: space-between; align-items: baseline; gap: 12px;
+  padding: 8px 0; border-bottom: 1px solid #f2f2f5;
+}
+.sp-row:last-child { border-bottom: none; }
+.sp-lbl { font-size: .82rem; color: var(--muted); }
+.sp-val { font-size: .85rem; font-weight: 600; color: var(--dark); text-align: right; }
+.sp-result { display: flex; gap: 8px; font-size: .85rem; color: var(--mid); line-height: 1.6; padding: 4px 0; }
+.sp-check { color: var(--red); font-weight: 800; flex-shrink: 0; }
+.sp-link {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-family: var(--ff-head); font-size: .78rem; font-weight: 600;
+  color: var(--red); text-decoration: none; transition: all .25s var(--ease);
+  padding: 6px 14px; border-radius: 20px;
+  background: rgba(200,16,46,.04); border: 1px solid rgba(200,16,46,.08);
+}
+.sp-link:hover { color: #fff; background: var(--red); border-color: var(--red); box-shadow: 0 2px 12px rgba(200,16,46,.2); }
+
+/* ── Legal accordion ── */
+.legal-accordion {
+  background: rgba(255,255,255,.65); border: 1px solid rgba(255,255,255,.5);
+  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  border-radius: var(--r-lg); overflow: hidden; cursor: pointer;
+  margin-bottom: 20px; transition: box-shadow .3s var(--ease);
+}
+.legal-accordion:hover { box-shadow: var(--shadow-sm); }
+.legal-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 18px 22px; user-select: none;
+}
+.legal-chevron { color: var(--muted); transition: transform .3s var(--ease); flex-shrink: 0; }
+.legal-accordion.open .legal-chevron { transform: rotate(180deg); }
+.legal-body {
+  display: none; padding: 0 22px 22px;
+  border-top: 1px solid rgba(0,0,0,.04);
+  font-size: .86rem; color: var(--mid); line-height: 1.7;
+}
+.legal-accordion.open .legal-body { display: block; animation: sp-slide .35s var(--ease); }
+.legal-body strong { color: var(--dark); font-weight: 600; }
 
 /* ── Accordion estudos ── */
 .study-accordion {
-  border: 1px solid var(--border);
-  border-radius: var(--r);
+  border: 1px solid rgba(255,255,255,.5);
+  border-radius: var(--r-lg);
   overflow: hidden;
   margin-bottom: 20px;
+  background: rgba(255,255,255,.6);
+  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  transition: box-shadow .3s var(--ease);
 }
+.study-accordion:hover { box-shadow: var(--shadow-sm); }
 .study-accordion-header {
   display: flex; align-items: center; justify-content: space-between;
   padding: 20px 24px; cursor: pointer;
-  background: var(--surface);
-  transition: background .15s;
+  background: transparent;
+  transition: background .25s var(--ease);
   user-select: none;
 }
-.study-accordion-header:hover { background: var(--bg); }
+.study-accordion-header:hover { background: rgba(245,246,250,.5); }
 .study-accordion-left { display: flex; align-items: center; gap: 14px; }
 .study-accordion-tag {
   font-family: var(--ff-head); font-size: .62rem; font-weight: 700;
   letter-spacing: .14em; text-transform: uppercase;
-  color: var(--red); background: var(--red-lt);
-  border: 1.5px solid rgba(200,16,46,.25);
-  border-radius: 4px; padding: 5px 14px;
+  color: var(--red); background: rgba(200,16,46,.06);
+  border: 1px solid rgba(200,16,46,.12);
+  border-radius: 20px; padding: 5px 14px;
   white-space: nowrap; flex-shrink: 0;
   min-width: 160px; text-align: center;
 }
@@ -349,16 +342,16 @@ body { font-family: var(--ff-body); background: var(--bg); color: var(--dark); o
 }
 .study-accordion-chevron {
   width: 22px; height: 22px; flex-shrink: 0;
-  color: var(--muted); transition: transform .25s ease;
+  color: var(--muted); transition: transform .3s var(--ease);
 }
 .study-accordion.open .study-accordion-chevron { transform: rotate(180deg); }
 .study-accordion-body {
   display: none;
   padding: 0 24px 24px;
-  border-top: 1px solid var(--border);
-  background: var(--bg);
+  border-top: 1px solid rgba(0,0,0,.04);
+  background: rgba(245,246,250,.5);
 }
-.study-accordion.open .study-accordion-body { display: block; }
+.study-accordion.open .study-accordion-body { display: block; animation: sp-slide .35s var(--ease); }
 .study-accordion-body-inner {
   display: grid; grid-template-columns: 1fr 1fr; gap: 16px; padding-top: 20px;
 }
@@ -368,38 +361,48 @@ body { font-family: var(--ff-body); background: var(--bg); color: var(--dark); o
 .back-to-top {
   display: flex; align-items: center; justify-content: center; gap: 8px;
   margin: 40px auto 0; width: fit-content;
-  padding: 10px 22px; border: 1.5px solid var(--border);
-  border-radius: 100px; background: var(--surface);
+  padding: 10px 24px; border: 1px solid rgba(0,0,0,.06);
+  border-radius: 100px; background: rgba(255,255,255,.6);
+  backdrop-filter: blur(8px);
   font-family: var(--ff-head); font-size: .82rem; font-weight: 600;
   color: var(--mid); cursor: pointer; text-decoration: none;
-  transition: border-color .15s, color .15s, background .15s;
+  transition: all .25s var(--ease);
+  box-shadow: 0 1px 4px rgba(0,0,0,.03);
 }
-.back-to-top:hover { border-color: var(--red); color: var(--red); background: var(--red-lt); }
+.back-to-top:hover { border-color: rgba(200,16,46,.2); color: var(--red); background: var(--red-lt); box-shadow: var(--shadow-sm); transform: translateY(-1px); }
 .back-to-top svg { width: 14px; height: 14px; flex-shrink: 0; }
-.lp-disclaimer-footer {
-  background: #EBEBEB;
-  border-top: 1px solid #D8D8D8;
-  padding: 20px clamp(20px, 4vw, 56px);
-}
-.lp-disclaimer-inner { max-width: 1240px; margin: 0 auto; }
-.lp-disclaimer-footer p { font-size: .75rem; color: #888; line-height: 1.65; text-align: center; }
-.lp-disclaimer-footer strong { color: #666; font-weight: 600; }
-
-
 
 
 /* ══════════════════════════════════════════════════════════
    TOOL PAGE — Lilly Brand, clean, professional
 ══════════════════════════════════════════════════════════ */
 
+/* ─── TC Monogram ─── */
+.tc-mono {
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 10px; font-family: var(--ff-head);
+  font-weight: 800; color: #fff; flex-shrink: 0;
+}
+.tc-mono.sm  { width: 36px; height: 36px; font-size: 18px; border-radius: 9px; }
+.tc-mono.md  { width: 48px; height: 48px; font-size: 26px; border-radius: 12px; }
+.tc-mono.lg  { width: 80px; height: 80px; font-size: 40px; border-radius: 18px; }
+.tc-mono.red { background: linear-gradient(135deg, var(--red) 0%, var(--red-dk) 100%); }
+.tc-mono.glass { background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.2); backdrop-filter: blur(8px); }
+.tc-wordmark {
+  font-family: var(--ff-head); font-weight: 800;
+  letter-spacing: .1em; line-height: 1;
+}
+
 /* ─── Top Bar ─── */
 .tool-topbar {
   position: sticky; top: 0; z-index: 200;
-  background: var(--red);
-  height: 72px;
+  background: rgba(200,16,46,.92);
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  height: 56px;
   display: flex; align-items: center;
   padding: 0 var(--px);
-  box-shadow: 0 2px 16px rgba(200,16,46,.3);
+  box-shadow: 0 1px 0 rgba(200,16,46,.15), 0 4px 20px rgba(200,16,46,.12);
+  transition: all .3s var(--ease);
 }
 .topbar-inner {
   max-width: var(--max); margin: 0 auto; width: 100%;
@@ -420,21 +423,21 @@ body { font-family: var(--ff-body); background: var(--bg); color: var(--dark); o
   color: rgba(255,255,255,.85); white-space: nowrap;
 }
 .topbar-nav {
-  display: flex; align-items: center; gap: 4px;
+  display: flex; align-items: center; gap: 2px;
 }
 .topbar-nav a {
-  padding: 6px 14px; border-radius: 6px;
-  font-size: .82rem; font-weight: 500;
-  color: rgba(255,255,255,.8); text-decoration: none;
-  transition: background .15s, color .15s; white-space: nowrap;
+  padding: 5px 14px; border-radius: 20px;
+  font-size: .78rem; font-weight: 400;
+  color: rgba(255,255,255,.65); text-decoration: none;
+  transition: all .25s var(--ease); white-space: nowrap;
 }
 .topbar-nav a:hover { background: rgba(255,255,255,.12); color: #fff; }
 .topbar-badge {
-  padding: 4px 12px; border-radius: 20px;
-  background: rgba(255,255,255,.15); border: 1px solid rgba(255,255,255,.22);
-  font-size: .68rem; font-weight: 700; letter-spacing: .08em;
-  text-transform: uppercase; color: rgba(255,255,255,.82);
-  white-space: nowrap;
+  padding: 5px 14px; border-radius: 20px;
+  background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.12);
+  font-size: .62rem; font-weight: 500; letter-spacing: .06em;
+  text-transform: uppercase; color: rgba(255,255,255,.55);
+  white-space: nowrap; backdrop-filter: blur(4px);
 }
 @media (max-width: 768px) { .topbar-nav { display: none; } }
 
@@ -442,7 +445,7 @@ body { font-family: var(--ff-body); background: var(--bg); color: var(--dark); o
 .tool-wrap { max-width: var(--max); margin: 0 auto; padding: 0 var(--px); }
 .tool-section { padding: 48px 0; }
 .tool-section.alt { background: var(--bg); }
-.tool-section.white { background: var(--surface); }
+.tool-section.white { background: linear-gradient(180deg, #f0f1f6 0%, var(--bg) 100%); position: relative; }
 
 /* Section heading */
 .sec-eyebrow {
@@ -463,63 +466,80 @@ body { font-family: var(--ff-body); background: var(--bg); color: var(--dark); o
 
 /* ─── Hero vermelho da calculadora ─── */
 .calc-hero {
-  background: linear-gradient(135deg, var(--red) 0%, var(--red-dk) 100%);
-  padding: 32px 0 28px;
+  background: linear-gradient(135deg, var(--red) 0%, var(--red-dk) 80%, #7a0818 100%);
+  padding: 36px 0 30px;
   color: #fff;
+  position: relative; overflow: hidden;
+}
+.calc-hero::before {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,.06), transparent 40%);
+  pointer-events: none;
+}
+.calc-hero::after {
+  content: ''; position: absolute; width: 400px; height: 400px; border-radius: 50%;
+  background: rgba(255,255,255,.04); filter: blur(80px);
+  top: -200px; right: -100px; pointer-events: none;
 }
 .calc-hero-eyebrow {
   font-family: var(--ff-head);
   font-size: .65rem; font-weight: 700;
   letter-spacing: .16em; text-transform: uppercase;
-  color: rgba(255,255,255,.7); margin-bottom: 8px;
+  color: rgba(255,255,255,.6); margin-bottom: 8px;
 }
 .calc-hero-title {
   font-family: var(--ff-head);
-  font-size: clamp(1.4rem, 2.4vw, 1.9rem);
-  font-weight: 800; letter-spacing: -.025em;
-  color: #fff; margin-bottom: 8px; line-height: 1.2;
+  font-size: clamp(1.25rem, 2.2vw, 1.65rem);
+  font-weight: 700; letter-spacing: -.02em;
+  color: #fff; margin-bottom: 8px; line-height: 1.25;
+  position: relative;
 }
 .calc-hero-lead {
-  font-size: .9rem; color: rgba(255,255,255,.72);
+  font-size: .9rem; color: rgba(255,255,255,.65);
   line-height: 1.6; max-width: 580px;
 }
 
 /* ─── Cards ─── */
 .card {
-  background: var(--surface);
-  border-radius: var(--r);
-  border: 1px solid var(--border);
-  box-shadow: var(--shadow-sm);
+  background: rgba(255,255,255,.72);
+  backdrop-filter: blur(var(--glass-blur)); -webkit-backdrop-filter: blur(var(--glass-blur));
+  border-radius: var(--r-lg);
+  border: 1px solid rgba(255,255,255,.6);
+  box-shadow: var(--shadow-sm), inset 0 1px 0 rgba(255,255,255,.5);
   overflow: hidden; margin-bottom: 16px;
+  transition: box-shadow .35s var(--ease), transform .35s var(--ease);
 }
+.card:hover { box-shadow: var(--shadow-md), inset 0 1px 0 rgba(255,255,255,.5); }
 .card:last-child { margin-bottom: 0; }
 .card-head {
-  padding: 16px 22px 14px;
-  border-bottom: 1px solid var(--border);
+  padding: 15px 22px 14px;
+  border-bottom: 1px solid rgba(0,0,0,.04);
   display: flex; align-items: center; justify-content: space-between; gap: 8px;
-  background: var(--surface);
-  border-radius: var(--r) var(--r) 0 0;
+  background: rgba(255,255,255,.3);
+  border-radius: var(--r-lg) var(--r-lg) 0 0;
 }
 .card-head-title {
-  font-family: var(--ff-head); font-size: .9rem; font-weight: 700;
-  color: var(--dark); display: flex; align-items: center; gap: 8px;
+  font-family: var(--ff-head); font-size: .86rem; font-weight: 600;
+  color: var(--mid); display: flex; align-items: center; gap: 8px;
+  letter-spacing: .01em;
 }
+.card-head-title svg { opacity: .45; }
 .card-body { padding: 22px; }
 
 /* ─── Calculator layout ─── */
 .calc-grid {
   display: grid;
-  grid-template-columns: 340px 1fr;
-  gap: 20px; align-items: start;
+  grid-template-columns: 350px 1fr;
+  gap: 24px; align-items: start;
 }
-@media (max-width: 1000px) { .calc-grid { grid-template-columns: 300px 1fr; } }
+@media (max-width: 1000px) { .calc-grid { grid-template-columns: 310px 1fr; } }
 @media (max-width: 800px)  { .calc-grid { grid-template-columns: 1fr; } }
 
 /* ─── Form elements ─── */
 .form-section-label {
-  font-size: .66rem; font-weight: 700; text-transform: uppercase;
-  letter-spacing: .1em; color: var(--red); margin: 18px 0 10px;
-  padding-bottom: 6px; border-bottom: 1.5px solid var(--red-lt);
+  font-size: .64rem; font-weight: 600; text-transform: uppercase;
+  letter-spacing: .1em; color: var(--muted); margin: 20px 0 12px;
+  padding-bottom: 8px; border-bottom: 1px solid rgba(0,0,0,.04);
   display: flex; align-items: center; gap: 6px; font-family: var(--ff-head);
 }
 .form-section-label:first-child { margin-top: 0; }
@@ -532,15 +552,19 @@ body { font-family: var(--ff-body); background: var(--bg); color: var(--dark); o
 }
 .fg label .req { color: var(--red); }
 input[type=number], input[type=date], .tool-select {
-  width: 100%; height: 42px;
-  border: 1.5px solid var(--border); border-radius: var(--r-sm);
-  padding: 0 12px; font-family: var(--ff-body); font-size: .9rem;
-  color: var(--dark); background: #fff;
-  transition: border-color .18s, box-shadow .18s;
+  width: 100%; height: 44px;
+  border: 1.5px solid rgba(0,0,0,.08); border-radius: var(--r-sm);
+  padding: 0 14px; font-family: var(--ff-body); font-size: .9rem;
+  color: var(--dark); background: rgba(255,255,255,.6);
+  backdrop-filter: blur(8px);
+  transition: border-color .25s var(--ease), box-shadow .25s var(--ease), background .25s;
   -webkit-appearance: none; appearance: none; outline: none;
 }
 input[type=number]:focus, input[type=date]:focus, .tool-select:focus {
-  border-color: var(--red); box-shadow: 0 0 0 3px var(--red-tint);
+  border-color: var(--red); box-shadow: 0 0 0 4px var(--red-tint); background: rgba(255,255,255,.85);
+}
+input[type=number]:hover, input[type=date]:hover, .tool-select:hover {
+  border-color: rgba(0,0,0,.15); background: rgba(255,255,255,.75);
 }
 .sel-wrap { position: relative; }
 .sel-wrap::after {
@@ -552,40 +576,51 @@ input[type=number]:focus, input[type=date]:focus, .tool-select:focus {
 
 /* Notice box */
 .scope-notice {
-  background: #fef9ec; border: 1px solid #f59e0b;
-  border-radius: var(--r-sm); padding: 9px 12px;
-  font-size: .72rem; color: #78350f; line-height: 1.5; margin-bottom: 12px;
+  background: rgba(254,249,236,.7); border: 1px solid rgba(245,158,11,.2);
+  backdrop-filter: blur(6px);
+  border-radius: var(--r-sm); padding: 10px 14px;
+  font-size: .72rem; color: #78350f; line-height: 1.5; margin-bottom: 14px;
 }
 
 /* Buttons */
-.btn-row { display: grid; grid-template-columns: 1fr 42px; gap: 8px; align-items: stretch; }
+.btn-row { display: grid; grid-template-columns: 1fr 44px; gap: 8px; align-items: stretch; }
 .btn-calc {
-  width: 100%; height: 46px;
+  width: 100%; height: 48px;
   background: linear-gradient(135deg, var(--red) 0%, var(--red-dk) 100%);
   color: #fff; border: none; border-radius: var(--r-sm);
   font-family: var(--ff-head); font-size: .9rem; font-weight: 700;
-  cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 7px;
-  transition: opacity .18s, transform .1s;
-  box-shadow: 0 4px 16px rgba(200,16,46,.28);
+  cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;
+  transition: all .3s var(--ease);
+  box-shadow: 0 4px 16px rgba(200,16,46,.25), 0 0 50px rgba(200,16,46,.06);
+  position: relative; overflow: hidden;
 }
-.btn-calc:hover  { opacity: .9; }
-.btn-calc:active { transform: scale(.98); }
+.btn-calc::before {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,.12), transparent 50%);
+  pointer-events: none;
+}
+.btn-calc:hover  { transform: translateY(-1px); box-shadow: 0 6px 24px rgba(200,16,46,.3), 0 0 60px rgba(200,16,46,.08); }
+.btn-calc:active { transform: scale(.98) translateY(0); }
 .btn-reset {
-  height: 46px; width: 42px;
-  background: var(--surface); color: var(--mid);
-  border: 1.5px solid var(--border); border-radius: var(--r-sm);
+  height: 48px; width: 44px;
+  background: rgba(255,255,255,.6); color: var(--mid);
+  border: 1px solid rgba(0,0,0,.06); border-radius: var(--r-sm);
   font-size: 1rem; cursor: pointer;
-  display: flex; align-items: center; justify-content: center; transition: .18s;
+  display: flex; align-items: center; justify-content: center;
+  transition: all .25s var(--ease);
+  backdrop-filter: blur(8px);
 }
-.btn-reset:hover { border-color: var(--red); color: var(--red); }
+.btn-reset:hover { border-color: var(--red); color: var(--red); background: var(--red-lt); }
 .btn-pdf {
-  height: 34px; padding: 0 14px;
-  background: var(--surface); color: var(--red);
-  border: 1.5px solid var(--red); border-radius: var(--r-sm);
+  height: 36px; padding: 0 16px;
+  background: rgba(255,255,255,.6); color: var(--red);
+  border: 1.5px solid rgba(200,16,46,.2); border-radius: var(--r-sm);
   font-family: var(--ff-head); font-size: .75rem; font-weight: 700;
-  cursor: pointer; display: flex; align-items: center; gap: 5px; transition: .18s;
+  cursor: pointer; display: flex; align-items: center; gap: 6px;
+  transition: all .25s var(--ease);
+  backdrop-filter: blur(8px);
 }
-.btn-pdf:hover { background: var(--red); color: #fff; }
+.btn-pdf:hover { background: var(--red); color: #fff; border-color: var(--red); box-shadow: 0 2px 12px rgba(200,16,46,.2); }
 
 /* ─── Results / Chart ─── */
 .empty-state {
@@ -603,13 +638,24 @@ input[type=number]:focus, input[type=date]:focus, .tool-select:focus {
 @media (max-width: 620px) { .summary-row { grid-template-columns: 1fr 1fr !important; } }
 
 .stat-card {
-  background: var(--bg); border-radius: var(--r-sm);
-  padding: 14px 14px 12px; border: 1px solid var(--border); min-width: 0;
+  background: rgba(255,255,255,.5); border-radius: var(--r);
+  padding: 16px 16px 14px; border: 1px solid rgba(255,255,255,.6); min-width: 0;
+  backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+  box-shadow: 0 1px 4px rgba(0,0,0,.03);
+  transition: transform .3s var(--ease), box-shadow .3s var(--ease);
 }
+.stat-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-sm); }
 .stat-card.accent {
   background: linear-gradient(135deg, var(--red) 0%, var(--red-dk) 100%);
-  border-color: transparent; box-shadow: 0 4px 18px rgba(200,16,46,.28);
+  border-color: transparent; box-shadow: var(--shadow-red);
+  position: relative; overflow: hidden;
 }
+.stat-card.accent::before {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,.12), transparent 60%);
+  pointer-events: none;
+}
+.stat-card.accent:hover { transform: translateY(-2px); box-shadow: 0 6px 28px rgba(200,16,46,.25), 0 12px 50px rgba(200,16,46,.1); }
 .stat-label { font-size: .6rem; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); margin-bottom: 3px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .stat-card.accent .stat-label { color: rgba(255,255,255,.72); }
 .stat-value { font-family: var(--ff-head); font-size: clamp(1.2rem, 1.8vw, 1.55rem); font-weight: 800; color: var(--dark); line-height: 1; overflow: hidden; text-overflow: ellipsis; }
@@ -618,38 +664,49 @@ input[type=number]:focus, input[type=date]:focus, .tool-select:focus {
 .stat-card.accent .stat-sub { color: rgba(255,255,255,.65); }
 
 /* Tags */
-.patient-tag-strip { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 14px; }
-.ptag { display: inline-flex; align-items: center; gap: 4px; border-radius: 20px; padding: 4px 11px; font-size: .7rem; font-weight: 600; line-height: 1.3; }
-.ptag.date  { background: #f0f4ff; border: 1px solid #bfdbfe; color: #1d4ed8; }
-.ptag.days  { background: #f0fdf4; border: 1px solid #bbf7d0; color: #166534; }
-.ptag.below { background: #fff1f2; border: 1px solid #fecdd3; color: var(--red); }
-.ptag.on    { background: #f0fdf4; border: 1px solid #86efac; color: #15803d; }
-.ptag.above { background: #eff6ff; border: 1px solid #bfdbfe; color: #1d4ed8; }
+.patient-tag-strip { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 16px; }
+.ptag {
+  display: inline-flex; align-items: center; gap: 5px; border-radius: 20px;
+  padding: 5px 12px; font-size: .7rem; font-weight: 600; line-height: 1.3;
+  backdrop-filter: blur(4px); transition: transform .2s var(--ease);
+}
+.ptag:hover { transform: translateY(-1px); }
+.ptag.date  { background: rgba(59,130,246,.08); border: 1px solid rgba(59,130,246,.15); color: #1d4ed8; }
+.ptag.days  { background: rgba(34,197,94,.08); border: 1px solid rgba(34,197,94,.15); color: #166534; }
+.ptag.below { background: rgba(200,16,46,.06); border: 1px solid rgba(200,16,46,.12); color: var(--red); }
+.ptag.on    { background: rgba(34,197,94,.08); border: 1px solid rgba(34,197,94,.15); color: #15803d; }
+.ptag.above { background: rgba(59,130,246,.08); border: 1px solid rgba(59,130,246,.15); color: #1d4ed8; }
 
 /* Chart tabs */
-.chart-tabs-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 12px; min-height: 36px; }
-.chart-tabs { display: flex; gap: 6px; flex-shrink: 0; }
+.chart-tabs-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 14px; min-height: 36px; }
+.chart-tabs { display: flex; gap: 4px; flex-shrink: 0; background: rgba(0,0,0,.03); border-radius: 24px; padding: 3px; }
 .chart-tab {
   font-family: var(--ff-body); font-size: .76rem; font-weight: 500;
-  padding: 6px 14px; border-radius: 20px;
-  border: 1.5px solid var(--border); background: transparent; color: var(--mid);
-  cursor: pointer; transition: .18s;
+  padding: 7px 16px; border-radius: 20px;
+  border: none; background: transparent; color: var(--mid);
+  cursor: pointer; transition: all .25s var(--ease);
 }
-.chart-tab.active { background: linear-gradient(135deg, var(--red), var(--red-dk)); color: #fff; border-color: transparent; }
+.chart-tab:hover { color: var(--dark); background: rgba(0,0,0,.04); }
+.chart-tab.active {
+  background: linear-gradient(135deg, var(--red), var(--red-dk)); color: #fff;
+  box-shadow: 0 2px 8px rgba(200,16,46,.2);
+}
 .atag { display: inline-flex; align-items: center; gap: 4px; border-radius: 20px; padding: 4px 11px; font-size: .7rem; font-weight: 700; }
 .atag.twl-tag { background: #ede9fe; border: 1.5px solid #7c3aed; color: #5b21b6; }
 .atag.wt-tag  { background: #e0f2fe; border: 1.5px solid #0284c7; color: #0369a1; }
 
-.chart-wrap { position: relative; height: 340px; margin-bottom: 4px; }
+.chart-wrap { position: relative; height: 340px; margin-bottom: 4px; border-radius: var(--r-sm); overflow: hidden; }
 
 /* Table */
-.tbl-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.tbl-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; border-radius: var(--r-sm); }
 table { width: 100%; border-collapse: collapse; font-size: .86rem; }
-thead tr { background: var(--red); }
-th { text-align: left; padding: 11px 16px; font-family: var(--ff-head); font-size: .74rem; font-weight: 700; color: #fff; white-space: nowrap; }
-td { padding: 10px 16px; border-bottom: 1px solid var(--border); color: var(--dark); vertical-align: middle; }
+thead tr { background: linear-gradient(135deg, var(--red-dk), #7a0818); }
+th { text-align: left; padding: 12px 16px; font-family: var(--ff-head); font-size: .74rem; font-weight: 700; color: #fff; white-space: nowrap; }
+th:first-child { border-radius: var(--r-sm) 0 0 0; }
+th:last-child { border-radius: 0 var(--r-sm) 0 0; }
+td { padding: 11px 16px; border-bottom: 1px solid rgba(0,0,0,.04); color: var(--dark); vertical-align: middle; transition: background .2s; }
 tr:last-child td { border-bottom: none; }
-tbody tr:nth-child(even) td { background: #fafbff; }
+tbody tr:nth-child(even) td { background: rgba(245,246,250,.5); }
 tr:hover td { background: var(--red-lt); }
 td:first-child { font-weight: 700; }
 .td-loss { font-weight: 600; color: #4f46e5; }
@@ -658,16 +715,18 @@ tr.actual-row td { background: #fff8f0 !important; }
 
 /* Disclaimer inline */
 .disclaimer-inline {
-  background: #fffbeb; border: 1.5px solid #fbbf24;
-  border-radius: var(--r-sm); padding: 13px 16px;
+  background: rgba(254,243,199,.6); border: 1.5px solid rgba(245,158,11,.25);
+  backdrop-filter: blur(8px);
+  border-radius: var(--r); padding: 14px 18px;
   font-size: .74rem; color: #78350f; line-height: 1.6; margin-top: 4px;
   display: flex; gap: 10px; align-items: flex-start;
 }
 
 /* ─── Compliance / Disclaimer sections ─── */
 .disc-alert {
-  background: #fff0f0; border: 2px solid #fecaca;
-  border-radius: var(--r); padding: 24px 28px;
+  background: rgba(255,240,240,.7); border: 1.5px solid rgba(254,202,202,.6);
+  backdrop-filter: blur(8px);
+  border-radius: var(--r-lg); padding: 24px 28px;
   display: flex; gap: 18px; align-items: flex-start; margin-bottom: 20px;
 }
 .disc-alert-icon { flex-shrink: 0; color: #dc2626; margin-top: 2px; }
@@ -679,16 +738,20 @@ tr.actual-row td { background: #fff8f0 !important; }
 @media (max-width: 600px) { .disc-grid { grid-template-columns: 1fr; } }
 
 .disc-card {
-  background: var(--surface); border: 1px solid var(--border);
-  border-radius: var(--r); padding: 24px;
+  background: rgba(255,255,255,.6); border: 1px solid rgba(255,255,255,.5);
+  backdrop-filter: blur(8px);
+  border-radius: var(--r-lg); padding: 24px;
+  transition: box-shadow .3s var(--ease), transform .3s var(--ease);
 }
+.disc-card:hover { box-shadow: var(--shadow-sm); transform: translateY(-1px); }
 .disc-card h4 { font-family: var(--ff-head); font-size: .95rem; font-weight: 700; color: var(--dark); margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
 .disc-card p  { font-size: .88rem; color: var(--mid); line-height: 1.65; }
 .disc-card h4 .disc-icon { font-size: 1rem; }
 
 .disc-req {
-  background: var(--bg); border: 1px solid var(--border);
-  border-radius: var(--r); padding: 24px; margin-bottom: 20px;
+  background: rgba(245,246,250,.6); border: 1px solid rgba(0,0,0,.04);
+  backdrop-filter: blur(8px);
+  border-radius: var(--r-lg); padding: 24px; margin-bottom: 20px;
 }
 .disc-req h3 { font-family: var(--ff-head); font-size: .95rem; font-weight: 700; color: var(--dark); margin-bottom: 14px; }
 .disc-req ul { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 10px; }
@@ -696,15 +759,17 @@ tr.actual-row td { background: #fff8f0 !important; }
 .disc-req ul li::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--red); flex-shrink: 0; margin-top: 7px; }
 
 .disc-limit {
-  background: #fffbeb; border: 1px solid #fcd34d;
-  border-radius: var(--r); padding: 22px 24px; margin-bottom: 20px;
+  background: rgba(255,251,235,.7); border: 1px solid rgba(252,211,77,.3);
+  backdrop-filter: blur(8px);
+  border-radius: var(--r-lg); padding: 22px 24px; margin-bottom: 20px;
 }
 .disc-limit h3 { font-family: var(--ff-head); font-size: .95rem; font-weight: 700; color: #78350f; margin-bottom: 8px; }
 .disc-limit p  { font-size: .88rem; color: #78350f; line-height: 1.65; }
 
 .disc-footer {
-  background: var(--bg); border: 1px solid var(--border);
-  border-radius: var(--r); padding: 18px 22px; text-align: center;
+  background: rgba(245,246,250,.6); border: 1px solid rgba(0,0,0,.04);
+  backdrop-filter: blur(8px);
+  border-radius: var(--r-lg); padding: 18px 22px; text-align: center;
 }
 .disc-footer p { font-size: .85rem; color: var(--muted); font-style: italic; }
 
@@ -712,10 +777,13 @@ tr.actual-row td { background: #fff8f0 !important; }
 .study-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
 @media (max-width: 760px) { .study-grid { grid-template-columns: 1fr; } }
 .study-card {
-  background: var(--surface); border: 1px solid var(--border);
-  border-radius: var(--r); padding: 26px;
+  background: rgba(255,255,255,.6); border: 1px solid rgba(255,255,255,.5);
+  backdrop-filter: blur(8px);
+  border-radius: var(--r-lg); padding: 26px;
+  transition: box-shadow .3s var(--ease), transform .3s var(--ease);
 }
-.study-card h3 { font-family: var(--ff-head); font-size: .95rem; font-weight: 700; color: var(--dark); margin-bottom: 14px; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
+.study-card:hover { box-shadow: var(--shadow-sm); transform: translateY(-1px); }
+.study-card h3 { font-family: var(--ff-head); font-size: .95rem; font-weight: 700; color: var(--dark); margin-bottom: 14px; padding-bottom: 12px; border-bottom: 1px solid rgba(0,0,0,.05); }
 .study-dl { display: flex; flex-direction: column; gap: 0; }
 .study-dl-row {
   display: flex; justify-content: space-between; align-items: baseline; gap: 12px;
@@ -726,8 +794,9 @@ tr.actual-row td { background: #fff8f0 !important; }
 .dl-value { font-size: .88rem; font-weight: 700; color: var(--dark); text-align: right; }
 
 .results-highlight {
-  background: var(--red-lt); border: 1px solid rgba(200,16,46,.15);
-  border-radius: var(--r); padding: 26px;
+  background: rgba(253,243,244,.6); border: 1px solid rgba(200,16,46,.1);
+  backdrop-filter: blur(8px);
+  border-radius: var(--r-lg); padding: 26px;
 }
 .results-highlight h3 { font-family: var(--ff-head); font-size: .95rem; font-weight: 700; color: var(--dark); margin-bottom: 16px; }
 .result-list { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 12px; }
@@ -735,8 +804,9 @@ tr.actual-row td { background: #fff8f0 !important; }
 .result-list li .chk { color: var(--red); font-weight: 800; flex-shrink: 0; font-size: 1rem; margin-top: 1px; }
 
 .ref-card {
-  background: var(--surface); border: 1px solid var(--border);
-  border-radius: var(--r); padding: 22px 26px; margin-top: 16px;
+  background: rgba(255,255,255,.6); border: 1px solid rgba(255,255,255,.5);
+  backdrop-filter: blur(8px);
+  border-radius: var(--r-lg); padding: 22px 26px; margin-top: 16px;
 }
 .ref-card h4 { font-family: var(--ff-head); font-size: .88rem; font-weight: 700; color: var(--dark); margin-bottom: 8px; }
 .ref-card p  { font-size: .84rem; color: var(--mid); line-height: 1.65; font-family: monospace; }
@@ -749,16 +819,16 @@ tr.actual-row td { background: #fff8f0 !important; }
   margin-top: 0;
 }
 .footer-top {
-  padding: 48px var(--px) 40px;
+  padding: 52px var(--px) 44px;
   max-width: var(--max); margin: 0 auto;
   display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 48px;
 }
 @media (max-width: 720px) { .footer-top { grid-template-columns: 1fr; gap: 28px; } }
-.footer-col h3 { font-family: var(--ff-head); font-size: .9rem; font-weight: 700; color: #fff; margin-bottom: 14px; }
+.footer-col h3 { font-family: var(--ff-head); font-size: .78rem; font-weight: 600; color: rgba(255,255,255,.7); margin-bottom: 12px; letter-spacing: .06em; text-transform: uppercase; }
 .footer-col p  { font-size: .84rem; color: rgba(255,255,255,.55); line-height: 1.7; }
 .footer-col ul { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 8px; }
-.footer-col ul li a { font-size: .84rem; color: rgba(255,255,255,.5); text-decoration: none; transition: color .15s; }
-.footer-col ul li a:hover { color: rgba(255,255,255,.85); }
+.footer-col ul li a { font-size: .84rem; color: rgba(255,255,255,.5); text-decoration: none; transition: color .25s var(--ease); }
+.footer-col ul li a:hover { color: rgba(255,255,255,.9); }
 .footer-bottom {
   border-top: 1px solid rgba(255,255,255,.08);
   padding: 20px var(--px);
@@ -772,11 +842,11 @@ tr.actual-row td { background: #fff8f0 !important; }
   font-weight: 800; font-style: italic;
   color: var(--red); letter-spacing: -.02em;
 }
-.footer-wrap { background: var(--dark); }
+.footer-wrap { background: linear-gradient(180deg, #1e1e1e 0%, #141414 100%); }
 
 /* ─── Animations ─── */
-.fade-in { animation: fadeIn .32s ease; }
-@keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+.fade-in { animation: fadeIn .4s var(--ease); }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
 
 /* ─── Print ─── */
 @media print {
@@ -791,110 +861,33 @@ tr.actual-row td { background: #fff8f0 !important; }
      LANDING PAGE
 ══════════════════════════════════════════════════════ -->
 <div id="view-landing">
-
-  <!-- PAINEL ESQUERDO — Lilly Red -->
-  <div class="lp-left">
-
-    <div class="lp-content">
-      <div class="lp-pill">
-        <span class="lp-pill-dot"></span>
-        Ferramenta Clínica · SURMOUNT
+  <div class="lp-burgundy">
+    <div class="lp-glow1"></div>
+    <div class="lp-glow2"></div>
+    <div class="lp-glow3"></div>
+    <div class="lp-card">
+      <div class="lp-logo">
+        <div class="lp-tc-icon">TC</div>
+        <div class="lp-tc-wm">TIRZE CALC</div>
       </div>
-
-      <h2 class="lp-headline">
-        Calculadora de<br>Predição de<br>
-        <span class="dim">Perda de Peso</span>
-      </h2>
-
-      <p class="lp-desc">Trajetória logística baseada nos dados do estudo SURMOUNT-1 com <strong>intervalo interquartil (IIQ)</strong> ao longo de <strong>72 semanas</strong> de tratamento com tirzepatida.</p>
-
-      <div class="lp-chips">
-        <div class="lp-chip">
-          <div class="lp-chip-icon">📊</div>
-          <div>
-            <div class="lp-chip-label">Modelo logístico validado</div>
-            <div class="lp-chip-desc">Curva preditiva com banda IIQ (P25–P75)</div>
-          </div>
-        </div>
-        <div class="lp-chip">
-          <div class="lp-chip-icon">💊</div>
-          <div>
-            <div class="lp-chip-label">Doses 5 mg · 10 mg · 15 mg</div>
-            <div class="lp-chip-desc">Perfis normoglicêmico, pré-DM e DM2</div>
-          </div>
-        </div>
-        <div class="lp-chip">
-          <div class="lp-chip-icon">📋</div>
-          <div>
-            <div class="lp-chip-label">Exportação em PDF</div>
-            <div class="lp-chip-desc">Relatório com referência e data de geração</div>
-          </div>
-        </div>
+      <div class="lp-tagline">Predição de Perda de Peso · Tirzepatida</div>
+      <div class="lp-sep"></div>
+      <div class="lp-field">
+        <label for="crm-gate">CRM <span class="lp-req">*</span></label>
+        <input type="text" id="crm-gate" class="lp-input" placeholder="Ex: CRM 12345/SP" autocomplete="off"/>
+        <p class="lp-err" id="crm-gate-err">Por favor, informe seu CRM.</p>
       </div>
-    </div>
-
-    <div class="lp-footer">
-      Material destinado exclusivamente a profissionais de saúde e prescritores.<br>
-      © 2026 Eli Lilly and Company · Eli Lilly Brasil
-    </div>
-
-  </div>
-
-  <!-- PAINEL DIREITO — Formulário -->
-  <div class="lp-right">
-    <div class="gate-card">
-
-      <p class="gate-eyebrow">Acesso Profissional</p>
-      <h1 class="gate-title">Validação de Acesso</h1>
-      <p class="gate-sub">Ferramenta de uso exclusivo para profissionais de saúde habilitados.</p>
-      <div class="gate-sep"></div>
-
-      <div class="gf">
-        <label for="crm-gate">Registro Profissional (CRM/COREN)<span class="req">*</span></label>
-        <input type="text" id="crm-gate" placeholder="Ex: CRM 12345/SP" autocomplete="off"/>
-        <p class="g-ferr" id="crm-gate-err">Por favor, informe seu número de registro.</p>
-      </div>
-
-      <div class="gf">
-        <label for="espec-gate">Especialidade<span class="req">*</span></label>
-        <div class="g-sw">
-          <select id="espec-gate">
-            <option value="">Selecione uma especialidade</option>
-            <option>Clínica Médica</option>
-            <option>Endocrinologia</option>
-            <option>Cardiologia</option>
-            <option>Medicina de Família e Comunidade</option>
-            <option>Nutrologia</option>
-            <option>Nutrição</option>
-            <option>Geriatria</option>
-            <option>Ginecologia e Obstetrícia</option>
-            <option>Medicina do Trabalho</option>
-            <option>Outra especialidade</option>
-          </select>
-        </div>
-        <p class="g-ferr" id="espec-gate-err">Por favor, selecione sua especialidade.</p>
-      </div>
-
-      <label class="gate-check" for="confirm-gate">
+      <label class="lp-check" for="confirm-gate">
         <input type="checkbox" id="confirm-gate"/>
-        <span>Confirmo que sou um profissional de saúde qualificado e que utilizarei esta ferramenta exclusivamente para suporte à decisão clínica.</span>
+        <span>Confirmo que sou profissional de saúde habilitado.</span>
       </label>
-
-      <button class="btn-gate" id="btn-gate" onclick="handleAccess()" disabled>
-        Acessar Ferramenta
-      </button>
-
-      <div class="gate-form-footer">
-        <p class="gate-privacy">Seus dados serão tratados conforme nossa política de privacidade.</p>
-        <div class="gate-ssl">
-          <div class="ssl-dot"></div>
-          <span class="ssl-txt">SSL · Seguro</span>
-        </div>
+      <button class="lp-btn" id="btn-gate" onclick="handleAccess()" disabled>Acessar</button>
+      <div class="lp-foot">
+        <div class="lp-ssl-dot"></div>
+        <span class="lp-foot-txt">Conexão segura</span>
       </div>
-
     </div>
   </div>
-
 </div><!-- end #view-landing -->
 <div id="view-tool">
 
@@ -902,18 +895,22 @@ tr.actual-row td { background: #fff8f0 !important; }
   <header class="tool-topbar">
     <div class="topbar-inner">
       <a class="topbar-brand" href="#sec-calc">
-        <span class="topbar-label">Medical Affairs Brasil</span>
+        <div class="tc-mono glass" style="width:32px;height:32px;font-size:15px;border-radius:8px">TC</div>
+        <div>
+          <div class="tc-wordmark" style="font-size:14px;color:#fff;letter-spacing:1.2px">TIRZE CALC</div>
+          <div style="font-size:9px;color:rgba(255,255,255,.5);font-weight:400;letter-spacing:.3px;margin-top:1px">Predição de Perda de Peso · Tirzepatida</div>
+        </div>
       </a>
       <nav class="topbar-nav">
-        <a href="#sec-calc">Calculadora</a>
-        <a href="#sec-study">Estudos</a>
-        <a href="#sec-disc">Avisos</a>
-        <a href="#sec-privacy">Privacidade</a>
-        <a href="#sec-terms">Termos</a>
+        <a href="#sec-calc" style="display:flex;align-items:center;gap:5px"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M7 16l4-4 4 4 4-7"/></svg> Calculadora</a>
+        <button class="topbar-study-btn" onclick="toggleStudyPanel('s1')">SURMOUNT-1</button>
+        <button class="topbar-study-btn" onclick="toggleStudyPanel('s2')">SURMOUNT-1 Ext</button>
+        <button class="topbar-study-btn" onclick="toggleStudyPanel('s3')">SURMOUNT-2</button>
       </nav>
       <span class="topbar-badge">Medical Affairs</span>
     </div>
   </header>
+
 
   <!-- ── CALCULADORA ── -->
   <section id="sec-calc" class="calc-section">
@@ -921,7 +918,6 @@ tr.actual-row td { background: #fff8f0 !important; }
     <!-- Hero vermelho -->
     <div class="calc-hero">
       <div class="tool-wrap">
-        <p class="calc-hero-eyebrow">Ferramenta Clínica</p>
         <h2 class="calc-hero-title">Calculadora de Predição de Perda de Peso — Tirzepatida</h2>
         <p class="calc-hero-lead">Baseada nos dados do SURMOUNT-1 · Trajetória logística de 72 semanas com Intervalo Interquartil (IIQ · P25–P75)</p>
       </div>
@@ -1103,309 +1099,143 @@ tr.actual-row td { background: #fff8f0 !important; }
     </div><!-- end tool-section white -->
   </section>
 
-  <!-- ── REFERENCIAL CIENTÍFICO ── -->
-  <section id="sec-study" class="tool-section alt">
-    <div class="tool-wrap">
-      <p class="sec-eyebrow">Referencial Científico</p>
-      <h2 class="sec-title">Programa SURMOUNT</h2>
-      <p class="sec-lead">Base científica das predições desta ferramenta. Clique em cada estudo para expandir os dados detalhados.</p>
-
-      <!-- SURMOUNT-1 -->
-      <div class="study-accordion" id="acc1">
-        <div class="study-accordion-header" onclick="toggleAccordion('acc1')">
-          <div class="study-accordion-left">
-            <span class="study-accordion-tag">SURMOUNT-1</span>
-            <div>
-              <div class="study-accordion-title">Tirzepatida em adultos com sobrepeso ou obesidade sem diabetes tipo 2</div>
-              <div class="study-accordion-ref">Jastreboff AM, et al. <em>N Engl J Med.</em> 2022;387(3):205–216.</div>
-            </div>
-          </div>
-          <svg class="study-accordion-chevron" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg>
+  <!-- ── AVISO LEGAL (card fechado) ── -->
+  <div style="max-width:var(--max);margin:0 auto;padding:20px var(--px) 0">
+    <div class="legal-accordion" id="legalAcc" onclick="this.classList.toggle('open')">
+      <div class="legal-header">
+        <div style="display:flex;align-items:center;gap:10px">
+          <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="flex-shrink:0;color:var(--muted)"><path d="m10.29 3.86-8.23 14.2A2 2 0 0 0 3.77 21h16.46a2 2 0 0 0 1.71-3.07L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          <span style="font-family:var(--ff-head);font-size:.88rem;font-weight:700;color:var(--dark)">Avisos Legais e de Uso</span>
         </div>
-        <div class="study-accordion-body">
-          <div class="study-accordion-body-inner">
-            <div class="study-card">
-              <h3>Parâmetros</h3>
-              <div class="study-dl">
-                <div class="study-dl-row"><span class="dl-label">Participantes</span><span class="dl-value">2.539 · IMC ≥ 27 kg/m²</span></div>
-                <div class="study-dl-row"><span class="dl-label">Duração</span><span class="dl-value">72 semanas</span></div>
-                <div class="study-dl-row"><span class="dl-label">Doses</span><span class="dl-value">5 mg · 10 mg · 15 mg</span></div>
-                <div class="study-dl-row"><span class="dl-label">Desenho</span><span class="dl-value">RCT duplo-cego · placebo</span></div>
-                <div class="study-dl-row"><span class="dl-label">Desfecho primário</span><span class="dl-value">% perda de peso na semana 72</span></div>
-              </div>
-            </div>
-            <div class="results-highlight">
-              <h3>Resultados Principais</h3>
-              <ul class="result-list">
-                <li><span class="chk">✓</span><span><strong>−22,5%</strong> de perda de peso com 15 mg vs −2,4% com placebo na semana 72</span></li>
-                <li><span class="chk">✓</span><span>Melhora significativa do IMC, circunferência abdominal e fatores de risco cardiovascular</span></li>
-                <li><span class="chk">✓</span><span>Perfil de segurança bem estabelecido — eventos adversos majoritariamente gastrointestinais</span></li>
-                <li><span class="chk">✓</span><span>Benefícios metabólicos adicionais, incluindo melhora glicêmica e do perfil lipídico</span></li>
-              </ul>
-            </div>
-          </div>
-        </div>
+        <svg class="legal-chevron" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg>
       </div>
-
-      <!-- SURMOUNT-1 extensão / pré-diabetes -->
-      <div class="study-accordion" id="acc2">
-        <div class="study-accordion-header" onclick="toggleAccordion('acc2')">
-          <div class="study-accordion-left">
-            <span class="study-accordion-tag">SURMOUNT-1 · Extensão Pré-diabetes</span>
-            <div>
-              <div class="study-accordion-title">Subgrupo de participantes com pré-diabetes — análise de longo prazo</div>
-              <div class="study-accordion-ref">Jastreboff AM, et al. <em>N Engl J Med.</em> 2024;391(21):1986–1998.</div>
-            </div>
-          </div>
-          <svg class="study-accordion-chevron" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg>
-        </div>
-        <div class="study-accordion-body">
-          <div class="study-accordion-body-inner">
-            <div class="study-card">
-              <h3>Parâmetros</h3>
-              <div class="study-dl">
-                <div class="study-dl-row"><span class="dl-label">Participantes</span><span class="dl-value">1.032 · subgrupo pré-diabetes</span></div>
-                <div class="study-dl-row"><span class="dl-label">Duração</span><span class="dl-value">72 semanas + seguimento</span></div>
-                <div class="study-dl-row"><span class="dl-label">Doses</span><span class="dl-value">5 mg · 10 mg · 15 mg</span></div>
-                <div class="study-dl-row"><span class="dl-label">Desfecho adicional</span><span class="dl-value">Regressão para normoglicemia</span></div>
-              </div>
-            </div>
-            <div class="results-highlight">
-              <h3>Resultados Principais</h3>
-              <ul class="result-list">
-                <li><span class="chk">✓</span><span><strong>−20,0%</strong> de perda de peso média com 15 mg em participantes com pré-diabetes</span></li>
-                <li><span class="chk">✓</span><span>Regressão para normoglicemia em proporção significativa dos participantes</span></li>
-                <li><span class="chk">✓</span><span>Redução do risco de progressão para diabetes tipo 2</span></li>
-              </ul>
-            </div>
-          </div>
-        </div>
+      <div class="legal-body">
+        <p style="margin-bottom:12px"><strong>Finalidade Educacional:</strong> Esta ferramenta tem finalidade exclusivamente educacional. Não substitui o julgamento clínico independente, a experiência profissional ou a responsabilidade do médico prescritor. As predições são baseadas em dados populacionais do Programa SURMOUNT e não constituem garantias de resultados individuais.</p>
+        <p style="margin-bottom:12px"><strong>Precisão e Variabilidade:</strong> Os resultados representam predições baseadas em dados clínicos agregados de fase 3. A variabilidade individual é esperada. Fatores como aderência, metabolismo, comorbidades e interações medicamentosas podem afetar significativamente os resultados reais.</p>
+        <p style="margin-bottom:12px"><strong>Segurança:</strong> Todos os pacientes em tratamento com tirzepatida requerem monitoramento contínuo. Consulte a bula completa para informações sobre segurança, contraindicações e interações medicamentosas.</p>
+        <p style="margin-bottom:12px"><strong>Fonte de Dados:</strong> SURMOUNT-1 (Jastreboff et al., NEJM 2022), SURMOUNT-1 subgrupo pré-diabetes (NEJM 2024) e SURMOUNT-2 (Garvey et al., Lancet 2023).</p>
+        <p style="margin-bottom:12px"><strong>Uso Profissional:</strong> Apenas profissionais de saúde legalmente qualificados podem acessar e utilizar esta ferramenta. O uso é condicionado à concordância com regulamentações locais e diretrizes clínicas vigentes. Dados do paciente devem ser tratados conforme a LGPD (Lei 13.709/2018).</p>
+        <p><strong>Limitação de Responsabilidade:</strong> A área de Medical Affairs não se responsabiliza por resultados adversos ou danos diretos/indiretos resultantes do uso desta ferramenta. O uso é de inteira responsabilidade do profissional de saúde.</p>
       </div>
-
-      <!-- SURMOUNT-2 -->
-      <div class="study-accordion" id="acc3">
-        <div class="study-accordion-header" onclick="toggleAccordion('acc3')">
-          <div class="study-accordion-left">
-            <span class="study-accordion-tag">SURMOUNT-2</span>
-            <div>
-              <div class="study-accordion-title">Tirzepatida em adultos com sobrepeso ou obesidade e diabetes tipo 2</div>
-              <div class="study-accordion-ref">Garvey WT, et al. <em>Lancet.</em> 2023;402(10402):613–626.</div>
-            </div>
-          </div>
-          <svg class="study-accordion-chevron" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg>
-        </div>
-        <div class="study-accordion-body">
-          <div class="study-accordion-body-inner">
-            <div class="study-card">
-              <h3>Parâmetros</h3>
-              <div class="study-dl">
-                <div class="study-dl-row"><span class="dl-label">Participantes</span><span class="dl-value">938 · IMC ≥ 27 kg/m²</span></div>
-                <div class="study-dl-row"><span class="dl-label">Duração</span><span class="dl-value">72 semanas</span></div>
-                <div class="study-dl-row"><span class="dl-label">Doses</span><span class="dl-value">10 mg · 15 mg</span></div>
-                <div class="study-dl-row"><span class="dl-label">Desfecho primário</span><span class="dl-value">% perda de peso na semana 72</span></div>
-              </div>
-            </div>
-            <div class="results-highlight">
-              <h3>Resultados Principais</h3>
-              <ul class="result-list">
-                <li><span class="chk">✓</span><span><strong>−15,7%</strong> de perda de peso com 15 mg vs −3,3% com placebo na semana 72</span></li>
-                <li><span class="chk">✓</span><span>Melhora significativa do controle glicêmico e redução da HbA1c</span></li>
-                <li><span class="chk">✓</span><span>Benefícios metabólicos consistentes com os observados no SURMOUNT-1</span></li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <a class="back-to-top" href="#sec-calc">
-        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="m18 15-6-6-6 6"/></svg>
-        Voltar à calculadora
-      </a>
-
     </div>
-  </section>
+  </div>
 
-  <!-- ── DISCLAIMERS ── -->
-  <section id="sec-disc" class="tool-section white">
-    <div class="tool-wrap" style="max-width:900px">
-      <p class="sec-eyebrow">Avisos e Disclaimers</p>
-      <h2 class="sec-title">Avisos Legais e de Uso</h2>
-      <p class="sec-lead">Informações importantes sobre o uso responsável desta ferramenta clínica. Leia atentamente antes de utilizar.</p>
-
-      <!-- Aviso principal -->
-      <div class="disc-alert">
-        <div class="disc-alert-icon">
-          <svg width="26" height="26" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/></svg>
+  <!-- Study panels (open below, scrolled to) -->
+  <div id="study-panels-area" style="max-width:var(--max);margin:0 auto;padding:0 var(--px)">
+    <div class="study-panel" id="s1">
+      <div class="study-panel-inner">
+        <div class="study-panel-head">
+          <div>
+            <div class="study-panel-tag">SURMOUNT-1</div>
+            <div class="study-panel-title">Tirzepatida em adultos com sobrepeso ou obesidade sem diabetes tipo 2</div>
+            <div class="study-panel-ref">Jastreboff AM, et al. <em>N Engl J Med.</em> 2022;387(3):205–216.</div>
+          </div>
+          <button class="study-panel-close" onclick="toggleStudyPanel('s1')">&times;</button>
         </div>
-        <div>
-          <h3>Finalidade Educacional — Não Substitui Julgamento Clínico</h3>
-          <p class="aviso-lbl">AVISO IMPORTANTE:</p>
-          <p>Esta ferramenta tem finalidade <strong>exclusivamente educacional</strong>. Não substitui de forma alguma o julgamento clínico independente, a experiência profissional ou a responsabilidade do médico prescritor. As predições são baseadas em dados populacionais do Programa SURMOUNT e não constituem garantias de resultados individuais.</p>
+        <div class="study-panel-grid">
+          <div class="study-panel-col">
+            <div class="sp-row"><span class="sp-lbl">Participantes</span><span class="sp-val">2.539 · IMC ≥ 27 kg/m²</span></div>
+            <div class="sp-row"><span class="sp-lbl">Duração</span><span class="sp-val">72 semanas</span></div>
+            <div class="sp-row"><span class="sp-lbl">Doses</span><span class="sp-val">5 mg · 10 mg · 15 mg</span></div>
+            <div class="sp-row"><span class="sp-lbl">Desenho</span><span class="sp-val">RCT duplo-cego · placebo</span></div>
+          </div>
+          <div class="study-panel-col">
+            <div class="sp-result"><span class="sp-check">✓</span> <strong>−22,5%</strong> de perda de peso com 15 mg vs −2,4% com placebo</div>
+            <div class="sp-result"><span class="sp-check">✓</span> Melhora significativa do IMC e fatores de risco CV</div>
+            <div class="sp-result"><span class="sp-check">✓</span> Perfil de segurança bem estabelecido — EA majoritariamente GI</div>
+          </div>
         </div>
+        <a href="https://investor.lilly.com/news-releases/news-release-details/lillys-surmount-1-results-published-new-england-journal-medicine" target="_blank" rel="noopener" class="sp-link"><svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg> Ver no site da Lilly</a>
       </div>
-
-      <!-- Grid de avisos -->
-      <div class="disc-grid">
-        <div class="disc-card">
-          <h4><span class="disc-icon">📊</span> Precisão e Variabilidade</h4>
-          <p>Os resultados representam predições baseadas em dados clínicos agregados de fase 3. A variabilidade individual é esperada. Fatores como aderência ao medicamento, metabolismo individual, comorbidades e interações medicamentosas podem afetar significativamente os resultados reais.</p>
-        </div>
-        <div class="disc-card">
-          <h4><span class="disc-icon">🩺</span> Avaliação Clínica Completa</h4>
-          <p>Sempre realize uma avaliação clínica completa do paciente, incluindo história clínica detalhada, exame físico e testes laboratoriais relevantes. Esta ferramenta deve ser utilizada dentro do contexto de uma relação clínica estabelecida.</p>
-        </div>
-        <div class="disc-card">
-          <h4><span class="disc-icon">⚠️</span> Segurança e Monitoramento</h4>
-          <p>Todos os pacientes em tratamento com tirzepatida requerem monitoramento contínuo. Consulte a bula completa e as recomendações clínicas atualizadas para informações sobre segurança, contraindicações e interações medicamentosas.</p>
-        </div>
-        <div class="disc-card">
-          <h4><span class="disc-icon">📖</span> Fonte de Dados</h4>
-          <p>As predições são baseadas nos dados do SURMOUNT-1 (Jastreboff et al., NEJM 2022), SURMOUNT-1 subgrupo pré-diabetes (NEJM 2024) e SURMOUNT-2 (Garvey et al., Lancet 2023). Estudos futuros podem afetar a aplicabilidade destes dados.</p>
-        </div>
-      </div>
-
-      <!-- Requisitos de uso -->
-      <div class="disc-req">
-        <h3>Requisitos para Uso Profissional</h3>
-        <ul>
-          <li>Apenas profissionais de saúde legalmente qualificados (médicos, enfermeiros prescritores, nutricionistas clínicos) podem acessar e utilizar esta ferramenta.</li>
-          <li>O uso é condicionado à concordância com regulamentações locais e diretrizes clínicas vigentes sobre a prescrição de tirzepatida no Brasil.</li>
-          <li>O usuário aceita total responsabilidade por qualquer decisão clínica tomada com base nos resultados desta ferramenta.</li>
-          <li>Dados do paciente devem ser tratados conforme legislação de proteção de dados aplicável (LGPD — Lei 13.709/2018).</li>
-          <li>O conteúdo desta ferramenta é destinado exclusivamente a profissionais de saúde. É vedada a sua divulgação a pacientes ou ao público em geral.</li>
-        </ul>
-      </div>
-
-      <!-- Limitação de responsabilidade -->
-      <div class="disc-limit">
-        <h3>Limitação de Responsabilidade</h3>
-        <p>A área de Medical Affairs responsável pelo desenvolvimento desta ferramenta não se responsabiliza por resultados adversos, perda de dados, danos diretos ou indiretos resultantes de seu uso. O uso é de inteira responsabilidade do profissional de saúde. Esta ferramenta é atualizada periodicamente conforme novas evidências clínicas emergem.</p>
-      </div>
-
-      <!-- Rodapé do aviso -->
-      <div class="disc-footer">
-        <p>Ao utilizar esta ferramenta, você confirma que leu, compreendeu e aceita todos os termos, avisos e limitações estabelecidos acima.</p>
-      </div>
-
     </div>
-  </section>
 
-  <!-- ── POLÍTICA DE PRIVACIDADE ── -->
-  <section id="sec-privacy" class="tool-section alt">
-    <div class="tool-wrap" style="max-width:900px">
-      <p class="sec-eyebrow">Privacidade</p>
-      <h2 class="sec-title">Política de Privacidade</h2>
-      <p class="sec-lead">Como tratamos os dados coletados nesta ferramenta, em conformidade com a Lei Geral de Proteção de Dados (LGPD — Lei nº 13.709/2018).</p>
-
-      <div class="disc-card" style="margin-bottom:16px">
-        <h4>Dados coletados</h4>
-        <p>Esta ferramenta coleta exclusivamente o número de registro profissional (CRM/COREN) e a especialidade informados na tela de acesso, com a finalidade de verificar que o usuário é um profissional de saúde habilitado. <strong>Nenhum dado de paciente é coletado, armazenado ou transmitido.</strong> Os parâmetros inseridos na calculadora (peso, altura, idade, dose, status glicêmico) são processados localmente no navegador do usuário e não são enviados a nenhum servidor.</p>
+    <div class="study-panel" id="s2">
+      <div class="study-panel-inner">
+        <div class="study-panel-head">
+          <div>
+            <div class="study-panel-tag">SURMOUNT-1 · Extensão Pré-diabetes</div>
+            <div class="study-panel-title">Subgrupo pré-diabetes — análise de longo prazo (176 semanas)</div>
+            <div class="study-panel-ref">Jastreboff AM, et al. <em>N Engl J Med.</em> 2024;391(21):1986–1998.</div>
+          </div>
+          <button class="study-panel-close" onclick="toggleStudyPanel('s2')">&times;</button>
+        </div>
+        <div class="study-panel-grid">
+          <div class="study-panel-col">
+            <div class="sp-row"><span class="sp-lbl">Participantes</span><span class="sp-val">1.032 · subgrupo pré-diabetes</span></div>
+            <div class="sp-row"><span class="sp-lbl">Duração</span><span class="sp-val">72 sem. + 104 sem. extensão</span></div>
+            <div class="sp-row"><span class="sp-lbl">Doses</span><span class="sp-val">5 mg · 10 mg · 15 mg</span></div>
+          </div>
+          <div class="study-panel-col">
+            <div class="sp-result"><span class="sp-check">✓</span> <strong>−22,9%</strong> de perda de peso com 15 mg em 176 semanas</div>
+            <div class="sp-result"><span class="sp-check">✓</span> Redução de <strong>94%</strong> no risco de progressão para DM2</div>
+            <div class="sp-result"><span class="sp-check">✓</span> Regressão para normoglicemia em proporção significativa</div>
+          </div>
+        </div>
+        <a href="https://investor.lilly.com/news-releases/news-release-details/tirzepatide-reduced-risk-developing-type-2-diabetes-94-adults" target="_blank" rel="noopener" class="sp-link"><svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg> Ver no site da Lilly</a>
       </div>
-
-      <div class="disc-card" style="margin-bottom:16px">
-        <h4>Finalidade e base legal</h4>
-        <p>Os dados de registro profissional são tratados com base no legítimo interesse (Art. 7º, IX da LGPD), exclusivamente para controle de acesso a material de uso restrito a profissionais de saúde, em conformidade com as diretrizes da Interfarma e da ANVISA para materiais educacionais da indústria farmacêutica.</p>
-      </div>
-
-      <div class="disc-card" style="margin-bottom:16px">
-        <h4>Armazenamento e retenção</h4>
-        <p>Os dados de acesso são armazenados de forma segura, com proteção técnica adequada, pelo período mínimo necessário para fins de auditoria e conformidade regulatória. Não são compartilhados com terceiros, exceto quando exigido por lei ou autoridade competente.</p>
-      </div>
-
-      <div class="disc-card" style="margin-bottom:16px">
-        <h4>Direitos do titular</h4>
-        <p>Nos termos da LGPD, o titular dos dados tem direito a: confirmação da existência de tratamento; acesso aos dados; correção; anonimização, bloqueio ou eliminação; portabilidade; revogação do consentimento. Para exercer esses direitos ou esclarecer dúvidas sobre o tratamento de seus dados, entre em contato com a área de Medical Affairs.</p>
-      </div>
-
-      <div class="disc-card">
-        <h4>Cookies e rastreamento</h4>
-        <p>Esta ferramenta não utiliza cookies de rastreamento, pixels de terceiros ou tecnologias de monitoramento comportamental. O uso da ferramenta não implica coleta de dados para fins de marketing ou publicidade.</p>
-      </div>
-
     </div>
-  </section>
 
-  <!-- ── TERMOS DE USO ── -->
-  <section id="sec-terms" class="tool-section white">
-    <div class="tool-wrap" style="max-width:900px">
-      <p class="sec-eyebrow">Termos</p>
-      <h2 class="sec-title">Termos de Uso</h2>
-      <p class="sec-lead">Condições para utilização desta ferramenta educacional. Ao acessar a ferramenta, o usuário declara ter lido e aceito integralmente estes termos.</p>
-
-      <div class="disc-req" style="margin-bottom:20px">
-        <h3>1. Acesso e elegibilidade</h3>
-        <ul>
-          <li>O acesso é restrito a profissionais de saúde legalmente habilitados no Brasil (médicos, enfermeiros prescritores, nutricionistas clínicos e demais profissionais regulamentados).</li>
-          <li>Ao informar seu registro profissional, o usuário declara, sob sua responsabilidade, que está habilitado para exercer a profissão e que utilizará a ferramenta exclusivamente para fins educacionais.</li>
-          <li>É vedado o acesso por pacientes, leigos ou qualquer pessoa não habilitada como profissional de saúde.</li>
-        </ul>
+    <div class="study-panel" id="s3">
+      <div class="study-panel-inner">
+        <div class="study-panel-head">
+          <div>
+            <div class="study-panel-tag">SURMOUNT-2</div>
+            <div class="study-panel-title">Tirzepatida em adultos com sobrepeso ou obesidade e diabetes tipo 2</div>
+            <div class="study-panel-ref">Garvey WT, et al. <em>Lancet.</em> 2023;402(10402):613–626.</div>
+          </div>
+          <button class="study-panel-close" onclick="toggleStudyPanel('s3')">&times;</button>
+        </div>
+        <div class="study-panel-grid">
+          <div class="study-panel-col">
+            <div class="sp-row"><span class="sp-lbl">Participantes</span><span class="sp-val">938 · IMC ≥ 27 kg/m²</span></div>
+            <div class="sp-row"><span class="sp-lbl">Duração</span><span class="sp-val">72 semanas</span></div>
+            <div class="sp-row"><span class="sp-lbl">Doses</span><span class="sp-val">10 mg · 15 mg</span></div>
+          </div>
+          <div class="study-panel-col">
+            <div class="sp-result"><span class="sp-check">✓</span> <strong>−15,7%</strong> de perda de peso com 15 mg vs −3,3% placebo</div>
+            <div class="sp-result"><span class="sp-check">✓</span> Melhora significativa do controle glicêmico e HbA1c</div>
+            <div class="sp-result"><span class="sp-check">✓</span> Benefícios metabólicos consistentes com SURMOUNT-1</div>
+          </div>
+        </div>
+        <a href="https://investor.lilly.com/news-releases/news-release-details/lillys-surmount-2-results-published-lancet-show-tirzepatide" target="_blank" rel="noopener" class="sp-link"><svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg> Ver no site da Lilly</a>
       </div>
-
-      <div class="disc-req" style="margin-bottom:20px">
-        <h3>2. Finalidade e limitações</h3>
-        <ul>
-          <li>Esta ferramenta tem finalidade <strong>exclusivamente educacional</strong>. Não constitui prescrição, recomendação terapêutica ou orientação clínica individualizada.</li>
-          <li>As predições geradas são baseadas em dados populacionais publicados nos estudos do Programa SURMOUNT e representam estimativas probabilísticas, não garantias de resultado individual.</li>
-          <li>O uso desta ferramenta não dispensa a avaliação clínica completa do paciente, incluindo história clínica, exame físico, exames laboratoriais e demais considerações pertinentes ao caso.</li>
-          <li>A ferramenta não deve ser utilizada como único ou principal fundamento para decisões de prescrição ou conduta terapêutica.</li>
-        </ul>
-      </div>
-
-      <div class="disc-req" style="margin-bottom:20px">
-        <h3>3. Propriedade intelectual</h3>
-        <ul>
-          <li>O conteúdo, código e design desta ferramenta são de propriedade da área de Medical Affairs e protegidos pela legislação de propriedade intelectual aplicável.</li>
-          <li>É vedada a reprodução, distribuição, modificação ou uso comercial do conteúdo sem autorização prévia e expressa.</li>
-          <li>Os dados científicos utilizados são provenientes de publicações de acesso público, devidamente referenciadas.</li>
-        </ul>
-      </div>
-
-      <div class="disc-req">
-        <h3>4. Conformidade regulatória</h3>
-        <ul>
-          <li>Este material foi desenvolvido em conformidade com o Código de Conduta da Interfarma e com as diretrizes da ANVISA para materiais educacionais da indústria farmacêutica.</li>
-          <li>O material não constitui peça publicitária ou promocional, não menciona indicações terapêuticas específicas e não induz à prescrição.</li>
-          <li>Em caso de dúvidas sobre conformidade, entre em contato com a área de Medical Affairs.</li>
-        </ul>
-      </div>
-
-      <div class="disc-footer" style="margin-top:20px">
-        <p>Ao utilizar esta ferramenta, você confirma que leu, compreendeu e aceita integralmente estes Termos de Uso, a Política de Privacidade e os Avisos e Disclaimers.</p>
-      </div>
-
     </div>
-  </section>
+  </div>
 
   <!-- ── FOOTER ── -->
   <div class="footer-wrap">
     <footer class="tool-footer">
       <div class="footer-top">
         <div class="footer-col">
-          <h3>Sobre esta ferramenta</h3>
+          <h3>Sobre o TIRZE CALC</h3>
           <p>Ferramenta educacional de predição de perda de peso com tirzepatida, desenvolvida pela área de Medical Affairs. Material destinado exclusivamente a profissionais de saúde e prescritores.</p>
         </div>
         <div class="footer-col">
-          <h3>Navegação</h3>
+          <h3>Legal</h3>
           <ul>
-            <li><a href="#sec-calc">Calculadora</a></li>
-            <li><a href="#sec-study">Referencial Científico</a></li>
-            <li><a href="#sec-disc">Avisos e Disclaimers</a></li>
-            <li><a href="#sec-privacy">Política de Privacidade</a></li>
-            <li><a href="#sec-terms">Termos de Uso</a></li>
+            <li><a href="https://privacynotice.lilly.com/global/" target="_blank" rel="noopener"><svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="vertical-align:-1px"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> Política de Privacidade</a></li>
+            <li><a href="https://privacynotice.lilly.com/terms-of-use/" target="_blank" rel="noopener"><svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="vertical-align:-1px"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> Termos de Uso</a></li>
+            <li><a href="https://privacynotice.lilly.com/accessibility/" target="_blank" rel="noopener"><svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="vertical-align:-1px"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg> Acessibilidade</a></li>
           </ul>
         </div>
         <div class="footer-col">
           <h3>Referências</h3>
           <ul>
-            <li><a href="#">SURMOUNT-1 · NEJM 2022</a></li>
-            <li><a href="#">SURMOUNT-1 pré-DM · NEJM 2024</a></li>
-            <li><a href="#">SURMOUNT-2 · Lancet 2023</a></li>
+            <li><a href="https://investor.lilly.com/news-releases/news-release-details/lillys-surmount-1-results-published-new-england-journal-medicine" target="_blank" rel="noopener"><svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="vertical-align:-1px"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg> SURMOUNT-1 · NEJM 2022</a></li>
+            <li><a href="https://investor.lilly.com/news-releases/news-release-details/tirzepatide-reduced-risk-developing-type-2-diabetes-94-adults" target="_blank" rel="noopener"><svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="vertical-align:-1px"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg> SURMOUNT-1 Ext · NEJM 2024</a></li>
+            <li><a href="https://investor.lilly.com/news-releases/news-release-details/lillys-surmount-2-results-published-lancet-show-tirzepatide" target="_blank" rel="noopener"><svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="vertical-align:-1px"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg> SURMOUNT-2 · Lancet 2023</a></li>
           </ul>
         </div>
       </div>
       <div class="footer-bottom">
-        <p>© 2026 Eli Lilly and Company · Medical Affairs Brasil</p>
-        <p>Material destinado a profissionais de saúde e prescritores · Interfarma/ANVISA compliant</p>
+        <div style="display:flex;align-items:center;gap:10px">
+          <div class="tc-mono" style="width:28px;height:28px;font-size:13px;border-radius:7px;background:var(--red)">TC</div>
+          <div>
+            <div class="tc-wordmark" style="font-size:13px;color:rgba(255,255,255,.7);letter-spacing:1px">TIRZE CALC</div>
+            <div style="font-size:9px;color:rgba(255,255,255,.3);font-weight:300;letter-spacing:.3px;margin-top:1px">© 2026 Eli Lilly and Company · Medical Affairs Brasil</div>
+          </div>
+        </div>
+        <p>Material destinado exclusivamente a profissionais de saúde e prescritores.</p>
       </div>
     </footer>
   </div>
@@ -1422,19 +1252,13 @@ document.getElementById('confirm-gate').addEventListener('change', function() {
 });
 
 function handleAccess() {
-  const crm   = (document.getElementById('crm-gate').value || '').trim();
-  const espec = document.getElementById('espec-gate').value;
+  const crm = (document.getElementById('crm-gate').value || '').trim();
   let valid = true;
 
   const crmEl  = document.getElementById('crm-gate');
   const crmErr = document.getElementById('crm-gate-err');
-  if (!crm) { crmEl.classList.add('g-err'); crmErr.style.display = 'block'; valid = false; }
-  else       { crmEl.classList.remove('g-err'); crmErr.style.display = 'none'; }
-
-  const espEl  = document.getElementById('espec-gate');
-  const espErr = document.getElementById('espec-gate-err');
-  if (!espec) { espEl.classList.add('g-err'); espErr.style.display = 'block'; valid = false; }
-  else        { espEl.classList.remove('g-err'); espErr.style.display = 'none'; }
+  if (!crm) { crmEl.classList.add('lp-has-err'); crmErr.style.display = 'block'; valid = false; }
+  else       { crmEl.classList.remove('lp-has-err'); crmErr.style.display = 'none'; }
 
   if (!valid) return;
 
@@ -1880,15 +1704,22 @@ async function exportPDF() {
     const sexVal = document.getElementById('sex').value;
     const ageVal = parseFloat(document.getElementById('age').value)||0;
 
-    /* Cabecalho */
+    /* Cabecalho — TIRZE CALC */
     pdf.setFillColor(200,16,46);
-    pdf.rect(0,0,PW,22,'F');
+    pdf.rect(0,0,PW,24,'F');
+    /* Monograma TC */
+    pdf.setFillColor(255,255,255,38); /* glass effect */
+    pdf.roundedRect(MARGIN, 4, 16, 16, 3, 3, 'F');
     pdf.setTextColor(255,255,255);
-    pdf.setFont('helvetica','bold'); pdf.setFontSize(12);
-    pdf.text('Calculadora de Predicao de Perda de Peso', MARGIN, 10);
-    pdf.setFont('helvetica','normal'); pdf.setFontSize(8);
-    pdf.text('Tirzepatida - Programa SURMOUNT', MARGIN, 16);
-    pdf.text('Gerado em '+dateStr+' - Uso exclusivo para profissionais de saude', PW-MARGIN, 16, {align:'right'});
+    pdf.setFont('helvetica','bold'); pdf.setFontSize(9);
+    pdf.text('TC', MARGIN+3.5, 14.5);
+    /* Wordmark */
+    pdf.setFont('helvetica','bold'); pdf.setFontSize(13);
+    pdf.text('TIRZE CALC', MARGIN+20, 12);
+    pdf.setFont('helvetica','normal'); pdf.setFontSize(7.5);
+    pdf.text('Predicao de Perda de Peso - Tirzepatida - Programa SURMOUNT', MARGIN+20, 18);
+    pdf.setFontSize(7);
+    pdf.text('Gerado em '+dateStr+' - Uso exclusivo para profissionais de saude', PW-MARGIN, 18, {align:'right'});
 
     let y = 30;
 
@@ -2029,19 +1860,36 @@ async function exportPDF() {
 
     /* Rodape */
     pdf.setFillColor(245,245,245); pdf.rect(0,PH-14,PW,14,'F');
-    pdf.setFont('helvetica','normal'); pdf.setFontSize(6); pdf.setTextColor(120);
-    pdf.text('Material educacional exclusivo para profissionais de saude', MARGIN, PH-8);
+    pdf.setFont('helvetica','bold'); pdf.setFontSize(6.5); pdf.setTextColor(100);
+    pdf.text('TIRZE CALC', MARGIN, PH-8);
+    pdf.setFont('helvetica','normal'); pdf.setFontSize(6); pdf.setTextColor(130);
+    pdf.text(' - Material educacional exclusivo para profissionais de saude', MARGIN+20, PH-8);
     pdf.text('Programa SURMOUNT: Jastreboff et al., NEJM 2022, 2024 - Garvey et al., Lancet 2023 - Nao substitui julgamento clinico', MARGIN, PH-4);
 
-    pdf.save('predicao-tirzepatida-'+dateStr.replace(/\//g,'-')+'.pdf');
+    pdf.save('tirze-calc-'+dateStr.replace(/\//g,'-')+'.pdf');
   } catch(e) { console.error(e); alert('Erro ao gerar PDF: '+e.message); }
   btn.textContent = 'Exportar PDF'; btn.disabled = false;
 }
 
-function toggleAccordion(id) {
-  const el = document.getElementById(id);
-  el.classList.toggle('open');
+function toggleStudyPanel(id) {
+  const panels = document.querySelectorAll('.study-panel');
+  let opened = false;
+  panels.forEach(p => {
+    if (p.id === id) {
+      const wasOpen = p.classList.contains('open');
+      p.classList.toggle('open');
+      if (!wasOpen) opened = true;
+    } else {
+      p.classList.remove('open');
+    }
+  });
+  if (opened) {
+    setTimeout(() => {
+      document.getElementById(id).scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 50);
+  }
 }
+
 </script>
 </body>
 </html>
